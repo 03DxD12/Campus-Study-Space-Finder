@@ -43,15 +43,23 @@
   <style>
     /* ── Base ── */
     *, *::before, *::after { box-sizing: border-box; }
-    body { font-family: 'Inter', system-ui, sans-serif; background: #fff; color: #111; overflow-x: hidden; }
+    html { scroll-padding-top: 5rem; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #fff; color: #111; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    section[id], footer[id] { scroll-margin-top: 4.5rem; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid #FFD700; outline-offset: 3px; border-radius: 0.5rem; }
 
     /* ── Scroll-reveal ── */
     .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* ── Nav ── */
-    #navbar { transition: background 0.3s, box-shadow 0.3s; }
+    #navbar { transition: background 0.3s, box-shadow 0.3s, transform 0.3s ease; }
     #navbar.scrolled { background: rgba(0,107,60,0.97); backdrop-filter: blur(10px); box-shadow: 0 2px 20px rgba(0,0,0,0.18); }
+    #scroll-progress { transform-origin: left; transform: scaleX(0); }
+    #mobile-menu { max-height: 0; opacity: 0; visibility: hidden; overflow: hidden; transform: translateY(-8px); transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease, visibility 0.25s; }
+    #mobile-menu.is-open { max-height: calc(100dvh - 4rem); opacity: 1; visibility: visible; overflow-y: auto; transform: translateY(0); }
+    #mobile-menu a { min-height: 44px; display: flex; align-items: center; }
 
     /* ── Hero gradient ── */
     .hero-bg {
@@ -106,6 +114,44 @@
 
     /* ── Tag badge ── */
     .tag-badge { letter-spacing: 0.04em; }
+
+    /* Responsive content that is intentionally wider than a phone */
+    .responsive-scroll-card { overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: #006B3C #e5e7eb; }
+    .responsive-scroll-card > .wide-content { min-width: 760px; }
+    #ia .feature-sitemap { min-width: 940px; }
+    .sitemap-branch { position: relative; }
+    .sitemap-branch::before { content: ''; position: absolute; top: -1rem; left: 50%; width: 1px; height: 1rem; background: currentColor; opacity: 0.38; }
+    .sitemap-list { position: relative; margin-top: 0.85rem; padding-left: 1.35rem; }
+    .sitemap-list::before { content: ''; position: absolute; top: 0; bottom: 1.25rem; left: 0.5rem; width: 1px; background: currentColor; opacity: 0.38; }
+    .sitemap-item { position: relative; }
+    .sitemap-item::before { content: ''; position: absolute; top: 50%; left: -0.85rem; width: 0.85rem; height: 1px; background: currentColor; opacity: 0.38; }
+
+    /* Back-to-top control */
+    #back-to-top { opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s; }
+    #back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    @media (max-width: 639px) {
+      section.py-20 { padding-top: 4rem; padding-bottom: 4rem; }
+      footer.py-16 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+      section h2 { font-size: clamp(1.75rem, 8vw, 2.15rem); line-height: 1.12; }
+      section .reveal.mb-14 { margin-bottom: 2.25rem; }
+      .p-8 { padding: 1.25rem; }
+      .p-7 { padding: 1.25rem; }
+      .hero-glow { filter: blur(56px); }
+      .stat-card:hover, .quote-card:hover, .feature-pill:hover { transform: none; }
+      #persona .wide-content { min-width: 820px; }
+      #ia .wide-content { min-width: 720px; }
+      #ia .feature-sitemap { min-width: 940px; }
+      .mobile-flow { display: grid; grid-template-columns: 1fr; gap: 0.5rem; }
+      .mobile-flow > div { width: 100%; text-align: center; padding-top: 0.75rem; padding-bottom: 0.75rem; }
+      .mobile-flow > svg { transform: rotate(90deg); margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body class="antialiased">
@@ -123,12 +169,12 @@
         </a>
         <!-- Desktop Nav -->
         <div class="hidden md:flex items-center gap-6 text-sm text-green-100 font-medium">
-          <a href="#research" class="nav-link hover:text-white transition-colors">Research</a>
-          <a href="#data" class="nav-link hover:text-white transition-colors">Data</a>
+          <a href="#research" class="nav-link hover:text-white transition-colors">Overview</a>
+          <a href="#data" class="nav-link hover:text-white transition-colors">Research</a>
           <a href="#persona" class="nav-link hover:text-white transition-colors">Persona</a>
           <a href="#ia" class="nav-link hover:text-white transition-colors">IA</a>
           <a href="#wireframes" class="nav-link hover:text-white transition-colors">Wireframes</a>
-          <a href="#prototype" class="nav-link hover:text-white transition-colors">Prototype</a>
+          <a href="#prototype" class="nav-link hover:text-white transition-colors">Hi-Fi</a>
           <a href="#testing" class="nav-link hover:text-white transition-colors">Testing</a>
           <a href="#iteration" class="nav-link hover:text-white transition-colors">Iteration</a>
           <a href="#contact" class="ml-2 px-4 py-1.5 rounded-full bg-gold text-forest font-bold text-xs hover:bg-yellow-300 transition-colors shadow">Contact</a>
@@ -142,20 +188,23 @@
       </div>
     </div>
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-forest-dark border-t border-green-700 px-4 pb-4 pt-2 space-y-1">
-      <a href="#research" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Research Framework</a>
-      <a href="#data" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Quantitative Insights</a>
+    <div id="mobile-menu" class="md:hidden bg-forest-dark border-t border-green-700 px-4 pb-4 pt-2 space-y-1" aria-hidden="true" inert>
+      <a href="#research" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Project Overview</a>
+      <a href="#data" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">UX Research</a>
       <a href="#voices" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">User Voices</a>
       <a href="#insights" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Key Insights</a>
-      <a href="#solution" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Solution</a>
       <a href="#persona" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">User Persona</a>
+      <a href="#solution" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Problem Definition</a>
       <a href="#ia" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Information Architecture</a>
       <a href="#wireframes" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Wireframes</a>
-      <a href="#prototype" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Prototype</a>
+      <a href="#prototype" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">High-Fidelity UI</a>
+      <a href="#cross-platform" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Cross-Platform Design</a>
       <a href="#testing" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Usability Testing</a>
       <a href="#iteration" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Design Iteration</a>
-      <a href="#contact" class="block py-2 text-forest font-bold bg-gold hover:bg-yellow-300 rounded-lg px-3 text-sm transition-colors text-center mt-2">Contact</a>
+      <a href="#reflection" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Final Reflection</a>
+      <a href="#contact" class="mobile-link block py-2 text-forest font-bold bg-gold hover:bg-yellow-300 rounded-lg px-3 text-sm transition-colors justify-center text-center mt-2">Contact</a>
     </div>
+    <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-white/10" aria-hidden="true"><div id="scroll-progress" class="h-full bg-gold"></div></div>
   </nav>
 
   <!-- ══════════════════════════════════════════════
@@ -179,10 +228,14 @@
         <span class="text-gold drop-shadow-lg">Space Finder</span>
       </h1>
       <p class="text-green-100 text-base sm:text-lg font-medium mb-2 animate-fade-up" style="animation-delay:0.15s">
-        DLSP / PLSP UX Case Study
+        A research-driven mobile UX case study
       </p>
       <p class="max-w-2xl text-green-200 text-sm sm:text-base leading-relaxed mb-10 animate-fade-up" style="animation-delay:0.2s">
-        Solving peak-hour overcrowding and navigation bottlenecks for college students during class gaps.
+        Reducing trial-and-error study-space searching for college students during class gaps.
+      </p>
+
+      <p class="text-green-200/90 text-xs sm:text-sm font-semibold tracking-wide mb-8 animate-fade-up" style="animation-delay:0.22s">
+        UX Research &middot; Information Architecture &middot; Mobile UI &middot; Prototyping &middot; Usability Testing
       </p>
 
       <!-- CTA buttons -->
@@ -196,7 +249,7 @@
       </div>
 
       <!-- Metadata grid -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-up" style="animation-delay:0.35s">
+      <div class="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-up" style="animation-delay:0.35s">
         <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/15 hover:bg-white/15 transition-colors">
           <div class="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center mb-3">
             <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -242,7 +295,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       01. RESEARCH FRAMEWORK
+       01. PROJECT OVERVIEW & UX PROJECT BRIEF
   ══════════════════════════════════════════════ -->
   <section id="research" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -252,8 +305,8 @@
           <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">01</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Research Framework</h2>
-        <p class="text-gray-500 text-base max-w-xl">The strategic foundation behind the DLSP / PLSP campus study space research.</p>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Project Overview &amp; UX Project Brief</h2>
+        <p class="text-gray-500 text-base max-w-xl">The project challenge, target audience, and research objective behind the Campus Study Space Finder.</p>
       </div>
 
       <!-- 3-card grid -->
@@ -264,8 +317,8 @@
           <div class="w-12 h-12 rounded-2xl bg-forest/10 flex items-center justify-center mb-5 group-hover:bg-forest/20 transition-colors">
             <svg class="w-6 h-6 text-forest" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           </div>
-          <span class="tag-badge inline-block px-2.5 py-0.5 bg-brown-tag/10 text-brown-tag text-xs font-bold rounded-full mb-3 border border-brown-tag/20">Problem Statement</span>
-          <h3 class="text-xl font-black text-black mb-3">The Core Problem</h3>
+          <span class="tag-badge inline-block px-2.5 py-0.5 bg-brown-tag/10 text-brown-tag text-xs font-bold rounded-full mb-3 border border-brown-tag/20">Project Challenge</span>
+          <h3 class="text-xl font-black text-black mb-3">Why This Project Matters</h3>
           <p class="text-gray-600 text-sm leading-relaxed">
             Students at DLSP / PLSP struggle to locate available, comfortable study spaces during class gaps. The lack of a centralized information system forces trial-and-error roaming, wasting valuable study time and increasing frustration during peak hours (10 AM to 2 PM).
           </p>
@@ -303,7 +356,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       02. QUANTITATIVE INSIGHTS
+       02. UX RESEARCH — QUANTITATIVE FINDINGS
   ══════════════════════════════════════════════ -->
   <section id="data" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -313,7 +366,7 @@
           <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">02</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Quantitative Insights</h2>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">UX Research: Quantitative Findings</h2>
         <p class="text-gray-500 text-base max-w-xl">Survey responses from <strong class="text-forest">N = 27 enrolled DLSP / PLSP students</strong> reveal clear, compelling patterns validated through a mixed-methods research strategy.</p>
       </div>
 
@@ -336,7 +389,7 @@
         <div class="reveal stat-card bg-white rounded-2xl p-6 border border-gray-100 shadow-sm relative overflow-hidden" style="transition-delay:0.1s">
           <div class="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-sky-blue/10"></div>
           <div class="relative">
-            <div class="text-5xl font-black text-sky-blue mb-1">88.8<span class="text-3xl">%</span></div>
+            <div class="text-5xl font-black text-sky-blue mb-1">88.9<span class="text-3xl">%</span></div>
             <p class="text-xs font-bold text-sky-blue/80 uppercase tracking-wider mb-2">Peak-Hour Bottleneck</p>
             <p class="text-gray-600 text-xs leading-relaxed">Rate finding a space during peak hours <strong>(10:00 AM – 2:00 PM)</strong> as difficult to neutral</p>
             <div class="mt-4 flex items-center gap-2">
@@ -380,7 +433,7 @@
             <h3 class="text-xl font-black text-black">Top Study Locations on Campus</h3>
             <p class="text-gray-500 text-sm mt-1">Where students currently find themselves studying (multiple answers allowed)</p>
           </div>
-          <span class="tag-badge inline-block px-3 py-1 bg-forest/10 text-forest text-xs font-bold rounded-full border border-forest/20">N=27 Survey · ITST 306</span>
+          <span class="tag-badge inline-block px-3 py-1 bg-forest/10 text-forest text-xs font-bold rounded-full border border-forest/20">n=24 valid responses · Multiple selections allowed</span>
         </div>
 
         <div class="space-y-5" id="bar-container">
@@ -470,18 +523,18 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       03. USER VOICES
+       02. UX RESEARCH — USER VOICES & AFFINITY MAPPING
   ══════════════════════════════════════════════ -->
   <section id="voices" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">03</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">02</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Affinity Mapping &amp; User Voices</h2>
-        <p class="text-gray-500 text-base max-w-xl">Verbatim quotes from N=27 survey respondents, clustered through affinity mapping to surface dominant themes in student experience.</p>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">UX Research: Affinity Mapping &amp; User Voices</h2>
+        <p class="text-gray-500 text-base max-w-xl">Selected quotes from N=27 survey respondents, clustered through affinity mapping to surface dominant themes in the student experience.</p>
       </div>
 
       <!-- Quote cards -->
@@ -494,14 +547,14 @@
               <div class="w-10 h-10 rounded-full bg-flame/15 flex items-center justify-center text-flame font-black text-lg">"</div>
               <div>
                 <p class="text-xs font-bold text-flame/80 uppercase tracking-wider">Navigation Frustration</p>
-                <p class="text-xs text-gray-400">Affinity Cluster: Trial-and-Error &middot; Respondent J.E., CAS</p>
+                <p class="text-xs text-gray-400">Affinity Cluster: Trial-and-Error &middot; Anonymous Respondent, CAS</p>
               </div>
             </div>
             <blockquote class="text-black text-lg font-bold leading-snug italic mb-5 border-l-4 border-flame pl-4">
               &ldquo;Ikot muna bago makaupo is real during midterms. I just want a quiet spot with an outlet so I can finish my case studies.&rdquo;
             </blockquote>
             <p class="text-gray-500 text-xs leading-relaxed mb-5">
-              <strong class="text-gray-700">Context:</strong> A verbatim quote from the survey directly referencing the exhausting pre-study ritual. This respondent also stated: <em>"I think the biggest issue is not knowing if a space is actually available before you go there. A simple app or live map of campus would help so much."</em>
+              <strong class="text-gray-700">Context:</strong> A survey quote referencing the exhausting pre-study ritual. This respondent also stated: <em>"I think the biggest issue is not knowing if a space is actually available before you go there. A simple app or live map of campus would help so much."</em>
             </p>
             <div class="flex flex-wrap gap-2">
               <span class="tag-badge px-2.5 py-1 bg-flame/10 text-flame text-xs rounded-full border border-flame/20 font-semibold">Peak-Hour Stress</span>
@@ -519,7 +572,7 @@
               <div class="w-10 h-10 rounded-full bg-flame/15 flex items-center justify-center text-flame font-black text-lg">"</div>
               <div>
                 <p class="text-xs font-bold text-flame/80 uppercase tracking-wider">Environmental Discomfort</p>
-                <p class="text-xs text-gray-400">Affinity Cluster: Heat &amp; Noise &middot; Respondent R.S., DLSP</p>
+                <p class="text-xs text-gray-400">Affinity Cluster: Heat &amp; Noise &middot; Anonymous Respondent, DLSP</p>
               </div>
             </div>
             <blockquote class="text-black text-lg font-bold leading-snug italic mb-5 border-l-4 border-flame pl-4">
@@ -544,14 +597,14 @@
               <div class="w-10 h-10 rounded-full bg-flame/15 flex items-center justify-center text-flame font-black text-lg">"</div>
               <div>
                 <p class="text-xs font-bold text-flame/80 uppercase tracking-wider">Academic Impact</p>
-                <p class="text-xs text-gray-400">Affinity Cluster: Wasted Gap Time &middot; Respondent C.M., PLSP</p>
+                <p class="text-xs text-gray-400">Affinity Cluster: Wasted Gap Time &middot; Anonymous Respondent, PLSP</p>
               </div>
             </div>
             <blockquote class="text-black text-lg font-bold leading-snug italic mb-5 border-l-4 border-flame pl-4">
               &ldquo;Almost failed one of my important quiz and recitation because I had nowhere to review.&rdquo;
             </blockquote>
             <p class="text-gray-500 text-xs leading-relaxed mb-5">
-              <strong class="text-gray-700">Context:</strong> This verbatim quote directly links the spatial access problem to measurable academic consequences &mdash; underscoring the design urgency beyond mere inconvenience. The respondent added they would benefit from a centralized system with location, capacity, and a reservation feature.
+              <strong class="text-gray-700">Context:</strong> This survey quote links the spatial access problem to academic consequences &mdash; underscoring the design urgency beyond mere inconvenience. The respondent added they would benefit from a centralized system with location, capacity, and a reservation feature.
             </p>
             <div class="flex flex-wrap gap-2">
               <span class="tag-badge px-2.5 py-1 bg-flame/10 text-flame text-xs rounded-full border border-flame/20 font-semibold">Academic Risk</span>
@@ -579,17 +632,17 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       04. KEY INSIGHTS
+       02. UX RESEARCH — SYNTHESIZED FINDINGS
   ══════════════════════════════════════════════ -->
   <section id="insights" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">04</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">02</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Key User Needs vs. Pain Points</h2>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">UX Research: Key User Needs &amp; Pain Points</h2>
         <p class="text-gray-500 text-base max-w-xl">A consolidated view of what students want versus what they are currently experiencing.</p>
       </div>
 
@@ -713,18 +766,33 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       05. PROPOSED SOLUTION
+       04. PROBLEM DEFINITION, DESIGN REQUIREMENTS & GOALS
   ══════════════════════════════════════════════ -->
   <section id="solution" class="py-20 md:py-28 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">05</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">04</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Proposed Solution Concept</h2>
-        <p class="text-gray-500 text-base max-w-xl">Introducing the <strong class="text-forest">DLSP / PLSP Study Space Locator App</strong> -- a data-driven tool designed to eliminate the guesswork of finding study spaces on campus.</p>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Problem Definition, Design Requirements &amp; Goals</h2>
+        <p class="text-gray-500 text-base max-w-xl">Research findings translated into a focused problem statement, core product requirements, and measurable interaction goals.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 mb-12">
+        <article class="reveal bg-gray-50 rounded-2xl p-6 border border-forest/15">
+          <span class="tag-badge text-xs font-black text-forest uppercase">Problem Statement</span>
+          <p class="text-gray-600 text-sm leading-relaxed mt-3">Students need a reliable way to evaluate study-space availability and comfort before walking across campus during limited class gaps.</p>
+        </article>
+        <article class="reveal bg-gray-50 rounded-2xl p-6 border border-sky-blue/20" style="transition-delay:0.1s">
+          <span class="tag-badge text-xs font-black text-sky-blue uppercase">Design Requirements</span>
+          <p class="text-gray-600 text-sm leading-relaxed mt-3">Show occupancy, noise, temperature, outlets, Wi-Fi, and directions in a mobile-first interface that supports quick comparison.</p>
+        </article>
+        <article class="reveal bg-gray-50 rounded-2xl p-6 border border-gold/40" style="transition-delay:0.2s">
+          <span class="tag-badge text-xs font-black text-amber-600 uppercase">Design Goal</span>
+          <p class="text-gray-600 text-sm leading-relaxed mt-3">Reduce uncertainty and unnecessary walking by helping students identify a suitable study space before beginning their journey.</p>
+        </article>
       </div>
 
       <div class="grid lg:grid-cols-2 gap-12 items-center">
@@ -919,7 +987,7 @@
 
           <!-- Next step CTA -->
           <div class="mt-6 p-4 bg-forest/5 rounded-xl border border-forest/15">
-            <p class="text-xs text-gray-500 mb-3"><strong class="text-forest">Next Step:</strong> High-fidelity Figma prototype &amp; usability testing with 10 students across 3 user journeys.</p>
+            <p class="text-xs text-gray-500 mb-3"><strong class="text-forest">Next Step:</strong> High-fidelity Figma prototype followed by moderated usability testing with 3 student participants.</p>
             <div class="flex flex-wrap gap-2">
               <span class="tag-badge px-3 py-1 bg-forest text-white text-xs font-bold rounded-full">Figma Wireframes</span>
               <span class="tag-badge px-3 py-1 bg-white text-gray-700 text-xs font-bold rounded-full border border-gray-200">Usability Testing</span>
@@ -932,13 +1000,13 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       06. USER PERSONA, USER STORIES & JOURNEY MAP
+       03. USER PERSONA, USER STORIES & JOURNEY MAP
   ══════════════════════════════════════════════ -->
   <section id="persona" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">06</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">03</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">User Persona, Stories &amp; Journey Map</h2>
@@ -947,7 +1015,7 @@
 
       <!-- Persona Card -->
       <div class="reveal bg-white rounded-2xl border border-forest/20 shadow-sm overflow-hidden mb-8">
-        <div class="bg-gradient-to-r from-forest to-green-500 px-7 py-5 flex items-center justify-between">
+        <div class="bg-gradient-to-r from-forest to-green-500 px-5 sm:px-7 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div class="flex items-center gap-4">
             <div class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-white font-black text-2xl">👨‍🎓</div>
             <div>
@@ -994,9 +1062,9 @@
       <!-- User Stories -->
       <div class="reveal grid md:grid-cols-3 gap-5 mb-8">
         <div class="bg-white rounded-2xl p-6 border border-forest/15 shadow-sm md:col-span-3">
-          <span class="tag-badge inline-block px-2.5 py-0.5 bg-forest/10 text-forest text-xs font-bold rounded-full mb-3 border border-forest/20">Primary Verbatim User Story</span>
+          <span class="tag-badge inline-block px-2.5 py-0.5 bg-forest/10 text-forest text-xs font-bold rounded-full mb-3 border border-forest/20">Primary User Story</span>
           <p class="text-gray-800 text-base leading-relaxed italic font-medium">"As a busy college student with tight class gaps, I want to view real-time occupancy and amenity status of campus study spaces, so that I can immediately head to a suitable location without wasting time or energy."</p>
-          <div class="mt-3 text-xs text-gray-400 font-semibold flex items-center justify-between">
+          <div class="mt-3 text-xs text-gray-400 font-semibold flex flex-col sm:flex-row gap-1 sm:items-center sm:justify-between">
             <span>Persona: <strong class="text-black">Peter Parker (BS Psychology)</strong></span>
             <span>Priority: <span class="text-forest font-black">High (Core MVP Requirement)</span></span>
           </div>
@@ -1004,10 +1072,10 @@
       </div>
 
       <!-- User Journey Map -->
-      <div class="reveal bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
+      <div class="reveal responsive-scroll-card bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
         <h3 class="text-xl font-black text-black mb-1">User Journey Map — Peter Parker</h3>
         <p class="text-gray-500 text-sm mb-8">End-to-end journey across 5 key phases: Trigger, Search, Filtering, Navigation, and Post-Use Feedback.</p>
-        <div class="grid grid-cols-5 gap-3">
+        <div class="wide-content grid grid-cols-5 gap-3 pb-2">
           <!-- Stage labels -->
           <div class="col-span-5 grid grid-cols-5 gap-3 mb-1">
             <div class="text-center"><span class="tag-badge px-2 py-1 bg-forest text-white text-xs font-bold rounded-full">1. Trigger</span></div>
@@ -1038,13 +1106,13 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       07. INFORMATION ARCHITECTURE, SITEMAP & USER FLOW
+       05. INFORMATION ARCHITECTURE, SITEMAP & USER FLOW
   ══════════════════════════════════════════════ -->
   <section id="ia" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">07</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">05</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Information Architecture &amp; User Flow</h2>
@@ -1052,54 +1120,71 @@
       </div>
 
       <!-- Sitemap -->
-      <div class="reveal bg-gray-50 rounded-2xl p-8 border border-gray-100 mb-8">
-        <h3 class="text-lg font-black text-black mb-6">App Sitemap</h3>
-        <div class="flex flex-col items-center gap-0">
-          <!-- Root -->
-          <div class="bg-forest text-white rounded-xl px-6 py-3 font-black text-sm shadow-lg">Study Space Locator App</div>
-          <div class="w-px h-6 bg-forest/40"></div>
-          <!-- Level 1 -->
-          <div class="grid grid-cols-4 gap-4 w-full">
-            <div class="flex flex-col items-center gap-0">
-              <div class="w-px h-4 bg-forest/30"></div>
-              <div class="bg-white border-2 border-forest text-forest rounded-xl px-4 py-2 font-black text-xs text-center shadow-sm w-full">Home / Dashboard</div>
-              <div class="w-px h-3 bg-gray-300"></div>
-              <div class="flex flex-col gap-1.5 w-full">
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Real-time Map View</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Space List View</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Peak-Hour Alert</div>
-              </div>
-            </div>
-            <div class="flex flex-col items-center gap-0">
-              <div class="w-px h-4 bg-forest/30"></div>
-              <div class="bg-white border-2 border-sky-blue text-sky-blue rounded-xl px-4 py-2 font-black text-xs text-center shadow-sm w-full">Filter &amp; Search</div>
-              <div class="w-px h-3 bg-gray-300"></div>
-              <div class="flex flex-col gap-1.5 w-full">
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">By Noise Level</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">By Temperature</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">By Outlets / Wi-Fi</div>
-              </div>
-            </div>
-            <div class="flex flex-col items-center gap-0">
-              <div class="w-px h-4 bg-forest/30"></div>
-              <div class="bg-white border-2 border-gold text-amber-600 rounded-xl px-4 py-2 font-black text-xs text-center shadow-sm w-full">Space Detail</div>
-              <div class="w-px h-3 bg-gray-300"></div>
-              <div class="flex flex-col gap-1.5 w-full">
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Occupancy %</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Amenities List</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Directions / Map</div>
-              </div>
-            </div>
-            <div class="flex flex-col items-center gap-0">
-              <div class="w-px h-4 bg-forest/30"></div>
-              <div class="bg-white border-2 border-flame text-flame rounded-xl px-4 py-2 font-black text-xs text-center shadow-sm w-full">Profile &amp; Settings</div>
-              <div class="w-px h-3 bg-gray-300"></div>
-              <div class="flex flex-col gap-1.5 w-full">
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Saved Spaces</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Notification Prefs</div>
-                <div class="bg-gray-100 rounded-lg px-3 py-1.5 text-gray-600 text-xs font-medium text-center">Report an Issue</div>
-              </div>
-            </div>
+      <div class="reveal responsive-scroll-card bg-gray-50 rounded-2xl p-8 border border-gray-100 mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7">
+          <div>
+            <h3 class="text-xl font-black text-black">Campus Study Space Finder</h3>
+            <p class="text-gray-500 text-sm mt-1">Feature Architecture &amp; Sitemap</p>
+          </div>
+          <span class="text-xs text-gray-400 font-semibold">Scroll horizontally on smaller screens &rarr;</span>
+        </div>
+
+        <div class="wide-content feature-sitemap flex flex-col items-center pb-3 px-2">
+          <div class="bg-gradient-to-br from-forest-dark to-forest text-white rounded-2xl px-7 py-4 font-black text-sm shadow-lg text-center">
+            <span class="block text-xs text-green-200 uppercase tracking-wider mb-1">Application</span>
+            Campus Study Space Finder
+          </div>
+          <div class="w-px h-8 bg-forest/50"></div>
+          <div class="w-3/4 h-px bg-forest/40"></div>
+
+          <div class="grid grid-cols-4 gap-7 w-full pt-4">
+            <article class="sitemap-branch text-emerald-600">
+              <div class="bg-emerald-500 text-white rounded-2xl px-4 py-4 font-black text-sm shadow-lg min-h-[72px] flex items-center">1.0 Home / Explore</div>
+              <ol class="sitemap-list space-y-3">
+                <li class="sitemap-item bg-white border-2 border-emerald-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">1.1 Search &amp; Autocomplete</li>
+                <li class="sitemap-item bg-white border-2 border-emerald-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">1.2 Live Occupancy Filter</li>
+                <li class="sitemap-item bg-white border-2 border-emerald-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">1.3 Quiet &amp; Comfort Filters</li>
+                <li class="sitemap-item bg-white border-2 border-emerald-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">1.4 Map / List Toggle</li>
+                <li class="sitemap-item bg-white border-2 border-emerald-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">1.5 Nearby Spaces</li>
+              </ol>
+            </article>
+
+            <article class="sitemap-branch text-amber-500">
+              <div class="bg-amber-400 text-gray-900 rounded-2xl px-4 py-4 font-black text-sm shadow-lg min-h-[72px] flex items-center">2.0 Space Details</div>
+              <ol class="sitemap-list space-y-3">
+                <li class="sitemap-item bg-amber-50 border-2 border-amber-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">2.1 Live Capacity</li>
+                <li class="sitemap-item bg-amber-50 border-2 border-amber-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">2.2 Temperature &amp; Noise</li>
+                <li class="sitemap-item bg-amber-50 border-2 border-amber-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">2.3 Amenities</li>
+                <li class="sitemap-item bg-amber-50 border-2 border-amber-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">2.4 Get Directions</li>
+                <li class="sitemap-item bg-amber-50 border-2 border-amber-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">2.5 Photos &amp; Reviews</li>
+              </ol>
+            </article>
+
+            <article class="sitemap-branch text-red-500">
+              <div class="bg-red-500 text-white rounded-2xl px-4 py-4 font-black text-sm shadow-lg min-h-[72px] flex items-center">3.0 Report Space Status</div>
+              <ol class="sitemap-list space-y-3">
+                <li class="sitemap-item bg-red-50 border-2 border-red-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">3.1 Start a Report</li>
+                <li class="sitemap-item bg-red-50 border-2 border-red-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">3.2 Select Occupancy Level</li>
+                <li class="sitemap-item bg-red-50 border-2 border-red-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">3.3 Update Comfort Conditions</li>
+                <li class="sitemap-item bg-red-50 border-2 border-red-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">3.4 Review &amp; Submit</li>
+                <li class="sitemap-item bg-red-50 border-2 border-red-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">3.5 Submission Confirmation</li>
+              </ol>
+            </article>
+
+            <article class="sitemap-branch text-sky-blue">
+              <div class="bg-sky-blue text-white rounded-2xl px-4 py-4 font-black text-sm shadow-lg min-h-[72px] flex items-center">4.0 Profile</div>
+              <ol class="sitemap-list space-y-3">
+                <li class="sitemap-item bg-blue-50 border-2 border-blue-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">4.1 Saved Spaces</li>
+                <li class="sitemap-item bg-blue-50 border-2 border-blue-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">4.2 Contribution History</li>
+                <li class="sitemap-item bg-blue-50 border-2 border-blue-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">4.3 Notification Preferences</li>
+                <li class="sitemap-item bg-blue-50 border-2 border-blue-200 text-gray-800 rounded-2xl px-3 py-3 text-xs font-semibold text-center shadow-sm">4.4 Help &amp; Campus Information</li>
+              </ol>
+            </article>
+          </div>
+
+          <div class="flex items-center justify-center gap-6 mt-8 text-xs text-gray-500">
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-forest"></span>Main sections</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-white border border-gray-300"></span>Features and sub-items</span>
           </div>
         </div>
       </div>
@@ -1108,7 +1193,7 @@
       <div class="reveal bg-gray-50 rounded-2xl p-8 border border-gray-100">
         <h3 class="text-lg font-black text-black mb-2">Primary User Flow</h3>
         <p class="text-gray-500 text-sm mb-6">Task: Find an available, quiet study space with outlets during a class gap.</p>
-        <div class="flex flex-wrap items-center gap-2">
+        <div class="mobile-flow flex flex-wrap items-center gap-2">
           <div class="bg-forest text-white rounded-xl px-4 py-2 text-xs font-black shadow">Open App</div>
           <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
           <div class="bg-white border border-forest/30 text-forest rounded-xl px-4 py-2 text-xs font-bold shadow-sm">View Dashboard<br/><span class="text-gray-400 font-normal">Space list loads</span></div>
@@ -1126,13 +1211,13 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       08. STORYBOARD, SKETCHES & LOW-FIDELITY WIREFRAMES
+       06. STORYBOARD, SKETCHES & LOW-FIDELITY WIREFRAMES
   ══════════════════════════════════════════════ -->
   <section id="wireframes" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">08</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">06</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Storyboard, Sketches &amp; Low-Fidelity Wireframes</h2>
@@ -1141,13 +1226,13 @@
 
       <!-- Storyboard -->
       <div class="reveal bg-white rounded-2xl p-8 border border-gray-100 shadow-sm mb-8">
-        <h3 class="text-lg font-black text-black mb-2">Storyboard — Maria's Pain-to-Solution Journey</h3>
+        <h3 class="text-lg font-black text-black mb-2">Storyboard — Peter's Pain-to-Solution Journey</h3>
         <p class="text-gray-500 text-sm mb-6">6-panel storyboard illustrating the before &amp; after experience.</p>
-        <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <div class="bg-flame/5 rounded-xl p-4 border border-flame/20 text-center">
             <div class="text-3xl mb-2">😤</div>
             <p class="text-xs font-bold text-flame mb-1">Panel 1</p>
-            <p class="text-xs text-gray-500">Maria's class ends. She needs a study spot urgently.</p>
+            <p class="text-xs text-gray-500">Peter's class ends. He needs a study spot to work on his lab report.</p>
           </div>
           <div class="bg-amber-50 rounded-xl p-4 border border-amber-200 text-center">
             <div class="text-3xl mb-2">🚶</div>
@@ -1249,17 +1334,17 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       09. HIGH-FIDELITY MOCKUPS & INTERACTIVE PROTOTYPE
+       07. HIGH-FIDELITY MOCKUPS & VISUAL INTERFACE DESIGN
   ══════════════════════════════════════════════ -->
   <section id="prototype" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">09</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">07</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">High-Fidelity Mockups &amp; Interactive Prototype</h2>
-        <p class="text-gray-500 text-base max-w-xl">Full-color, pixel-perfect screens designed in Figma with an interactive click-through prototype covering the primary user flow.</p>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">High-Fidelity Mockups &amp; Visual Interface Design</h2>
+        <p class="text-gray-500 text-base max-w-xl">High-fidelity screens applying the final visual hierarchy, component system, and interaction patterns.</p>
       </div>
 
       <!-- Design system -->
@@ -1309,6 +1394,29 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       08. INTERACTIVE PROTOTYPE & CROSS-PLATFORM DESIGN
+  ══════════════════════════════════════════════ -->
+  <section id="cross-platform" class="py-20 md:py-28 bg-gray-50 section-stripe">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal mb-14">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">08</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Interactive Prototype &amp; Cross-Platform Design</h2>
+        <p class="text-gray-500 text-base max-w-xl">The linked interaction model and responsive considerations used to carry the core experience across mobile, tablet, and desktop contexts.</p>
+      </div>
+
+      <div class="reveal grid sm:grid-cols-3 gap-5 mb-8">
+        <div class="bg-white rounded-2xl p-6 border border-forest/15"><h3 class="font-black text-black mb-2">Mobile First</h3><p class="text-gray-500 text-sm">Primary actions remain thumb-reachable, controls use touch-friendly targets, and study-space information is prioritized for quick scanning.</p></div>
+        <div class="bg-white rounded-2xl p-6 border border-sky-blue/20"><h3 class="font-black text-black mb-2">Tablet Adaptation</h3><p class="text-gray-500 text-sm">Additional width supports a split view with search results beside space details while preserving the same task sequence.</p></div>
+        <div class="bg-white rounded-2xl p-6 border border-gold/40"><h3 class="font-black text-black mb-2">Desktop Web</h3><p class="text-gray-500 text-sm">Map and list content can appear together, with filters retained in view to support faster comparison across campus locations.</p></div>
+      </div>
+
       <!-- Prototype CTA -->
       <div class="reveal bg-gradient-to-br from-forest to-green-600 rounded-2xl p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
@@ -1319,24 +1427,22 @@
             <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">8 Screens</span>
             <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">3 Task Flows</span>
             <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">Mobile-First</span>
-            <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">Android + iOS Variants</span>
+            <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">Responsive Considerations</span>
           </div>
         </div>
-        <a href="#" id="figma-prototype-link" class="shrink-0 px-8 py-4 bg-gold text-forest font-black rounded-xl hover:bg-yellow-300 transition-all shadow-xl hover:-translate-y-1 text-sm whitespace-nowrap">
-          View Figma Prototype ↗
-        </a>
+        <span class="shrink-0 px-8 py-4 bg-white/15 text-white font-black rounded-xl border border-white/25 text-sm whitespace-nowrap" aria-label="Figma prototype link pending">Figma link pending</span>
       </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════
-       10. USABILITY TESTING PLAN, OBSERVATIONS & FINDINGS
+       09. USABILITY TESTING PLAN, OBSERVATIONS & FINDINGS
   ══════════════════════════════════════════════ -->
-  <section id="testing" class="py-20 md:py-28 bg-gray-50 section-stripe">
+  <section id="testing" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">10</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">09</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Usability Testing Plan, Observations &amp; Findings</h2>
@@ -1344,7 +1450,7 @@
       </div>
 
       <!-- Testing Plan Overview -->
-      <div class="reveal grid md:grid-cols-4 gap-5 mb-8">
+      <div class="reveal grid sm:grid-cols-2 md:grid-cols-4 gap-5 mb-8">
         <div class="bg-white rounded-2xl p-5 border border-forest/15 shadow-sm text-center">
           <div class="text-3xl font-black text-forest mb-1">3</div>
           <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Participants</p>
@@ -1361,9 +1467,9 @@
           <p class="text-xs text-gray-400 mt-1">Grade A (Excellent)</p>
         </div>
         <div class="bg-white rounded-2xl p-5 border border-flame/20 shadow-sm text-center">
-          <div class="text-3xl font-black text-flame mb-1">100%</div>
+          <div class="text-3xl font-black text-flame mb-1">3/3</div>
           <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Task Success</p>
-          <p class="text-xs text-gray-400 mt-1">Both tasks completed</p>
+          <p class="text-xs text-gray-400 mt-1">Completed both tasks</p>
         </div>
       </div>
 
@@ -1405,7 +1511,7 @@
               <span class="w-6 h-6 rounded-full bg-flame text-white flex items-center justify-center text-xs font-black shrink-0">1</span>
               <div>
                 <p class="text-sm font-black text-black mb-1">Filter icon not discoverable</p>
-                <p class="text-xs text-gray-500">3 of 5 participants missed the filter icon in the top-right corner. Expected a prominent "Filter" button below the search bar.</p>
+                <p class="text-xs text-gray-500">Participants initially overlooked the filter icon in the top-right corner and expected a prominent "Filter" control below the search bar.</p>
                 <span class="inline-block mt-2 px-2 py-0.5 bg-flame/10 text-flame text-xs rounded-full font-bold">Critical</span>
               </div>
             </div>
@@ -1413,7 +1519,7 @@
               <span class="w-6 h-6 rounded-full bg-flame text-white flex items-center justify-center text-xs font-black shrink-0">2</span>
               <div>
                 <p class="text-sm font-black text-black mb-1">"Directions" CTA buried in detail page</p>
-                <p class="text-xs text-gray-500">2 of 5 participants scrolled past the Directions button without noticing it. The button lacked sufficient contrast and size hierarchy.</p>
+                <p class="text-xs text-gray-500">Participants scrolled past the Directions control during testing. The button lacked sufficient contrast and visual hierarchy.</p>
                 <span class="inline-block mt-2 px-2 py-0.5 bg-flame/10 text-flame text-xs rounded-full font-bold">Critical</span>
               </div>
             </div>
@@ -1428,7 +1534,7 @@
               <span class="w-6 h-6 rounded-full bg-forest text-white flex items-center justify-center text-xs font-black shrink-0">✓</span>
               <div>
                 <p class="text-sm font-black text-black mb-1">Color-coded status instantly understood</p>
-                <p class="text-xs text-gray-500">All 5 participants immediately understood green/amber/red occupancy indicators without instruction. "Parang traffic light lang" (like a traffic light).</p>
+                <p class="text-xs text-gray-500">All participants understood the green/amber/red occupancy indicators without instruction: "Parang traffic light lang" (like a traffic light).</p>
               </div>
             </div>
             <div class="flex items-start gap-3 p-3 bg-forest/5 rounded-xl border border-forest/15">
@@ -1442,7 +1548,7 @@
               <span class="w-6 h-6 rounded-full bg-forest text-white flex items-center justify-center text-xs font-black shrink-0">✓</span>
               <div>
                 <p class="text-sm font-black text-black mb-1">App concept rated highly needed</p>
-                <p class="text-xs text-gray-500">Post-test survey: 5/5 said they would use this app daily. NPS score: +80. All 5 said it solves a "real daily problem."</p>
+                <p class="text-xs text-gray-500">All 3 participants described the concept as relevant to a recurring campus problem and indicated that they would use the app.</p>
               </div>
             </div>
           </div>
@@ -1452,13 +1558,13 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       11. DESIGN ITERATION, FINAL SOLUTION & REFLECTION
+       10. DESIGN ITERATION & DESIGN RATIONALE
   ══════════════════════════════════════════════ -->
-  <section id="iteration" class="py-20 md:py-28 bg-white">
+  <section id="iteration" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="reveal mb-14">
         <div class="flex items-center gap-3 mb-3">
-          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">11</span>
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">10</span>
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Design Iteration, Before &amp; After</h2>
@@ -1473,7 +1579,7 @@
             <span class="w-8 h-8 rounded-lg bg-forest text-white flex items-center justify-center font-black text-sm">01</span>
             <div>
               <h3 class="font-black text-black">Filter Button: Icon → Labeled Pill Row</h3>
-              <p class="text-gray-500 text-xs">Usability finding: 3/5 users missed icon-only filter. Severity: Critical.</p>
+              <p class="text-gray-500 text-xs">Usability finding: participants overlooked the icon-only filter. Severity: Critical.</p>
             </div>
           </div>
           <div class="grid md:grid-cols-2 gap-6">
@@ -1503,7 +1609,7 @@
               </div>
             </div>
           </div>
-          <p class="text-xs text-gray-500 mt-4 leading-relaxed"><strong class="text-black">Design Rationale:</strong> Research in mobile UX (Nielsen Norman Group) shows filter chips are 2× more discoverable than icon-only controls. Moving filters inline also reduces tap depth from 2 taps to 1, aligning with our task-speed design goal.</p>
+          <p class="text-xs text-gray-500 mt-4 leading-relaxed"><strong class="text-black">Design Rationale:</strong> Labeled filter chips make available options visible without requiring users to interpret an unfamiliar icon. Moving filters inline also reduces the interaction from two taps to one.</p>
         </div>
 
         <!-- Change 2 -->
@@ -1512,7 +1618,7 @@
             <span class="w-8 h-8 rounded-lg bg-forest text-white flex items-center justify-center font-black text-sm">02</span>
             <div>
               <h3 class="font-black text-black">Directions CTA: Small Link → Sticky Full-Width Button</h3>
-              <p class="text-gray-500 text-xs">Usability finding: 2/5 users missed the directions link. Severity: Critical.</p>
+              <p class="text-gray-500 text-xs">Usability finding: participants missed the directions link. Severity: Critical.</p>
             </div>
           </div>
           <div class="grid md:grid-cols-2 gap-6">
@@ -1544,6 +1650,23 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       11. FINAL SOLUTION, REFLECTION & FUTURE WORK
+  ══════════════════════════════════════════════ -->
+  <section id="reflection" class="py-20 md:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal mb-14">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-10 h-10 rounded-xl bg-forest flex items-center justify-center text-white font-black text-sm shadow">11</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Final Solution, Reflection &amp; Future Improvements</h2>
+        <p class="text-gray-500 text-base max-w-xl">The resulting concept, the boundaries of the current evidence, and the next steps required to validate and extend the solution.</p>
+      </div>
+
       <!-- Final Reflection -->
       <div class="reveal grid md:grid-cols-3 gap-6">
         <div class="bg-forest rounded-2xl p-7 text-white">
@@ -1551,7 +1674,7 @@
             <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
           <h3 class="font-black text-lg mb-3">Final Solution</h3>
-          <p class="text-green-100 text-sm leading-relaxed">A mobile-first Campus Study Space Locator App for DLSP / PLSP that solves peak-hour overcrowding through real-time occupancy data, smart comfort filters, and proactive peak-hour alerts — reducing space search time from ~20 minutes to under 2 minutes.</p>
+          <p class="text-green-100 text-sm leading-relaxed">The final prototype is designed to reduce trial-and-error searching by centralizing occupancy, environmental conditions, amenities, and directions before students begin walking to a location.</p>
         </div>
         <div class="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm">
           <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center mb-4">
@@ -1559,7 +1682,7 @@
           </div>
           <h3 class="font-black text-black text-lg mb-3">Limitations</h3>
           <ul class="space-y-2 text-gray-600 text-sm">
-            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>Small sample (N=24 survey, N=5 usability test) — findings should be validated at scale</li>
+            <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>Limited sample size: the survey included N=27 respondents, while usability testing involved N=3 participants; findings should be validated with a larger population</li>
             <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>Prototype tested on Figma, not a live system — occupancy data is simulated</li>
             <li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0"></span>Campus infrastructure (sensors/IoT) needed for real-time data collection</li>
           </ul>
@@ -1585,7 +1708,7 @@
   ══════════════════════════════════════════════ -->
   <footer id="contact" class="bg-gray-950 py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-3 gap-12 mb-12">
+      <div class="grid md:grid-cols-2 gap-12 mb-12">
         <!-- Brand -->
         <div>
           <div class="flex items-center gap-3 mb-4">
@@ -1605,38 +1728,12 @@
           <h4 class="text-white font-black text-sm uppercase tracking-wider mb-4">This Project</h4>
           <ul class="space-y-2 text-gray-400 text-sm">
             <li class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>DLSP / PLSP Campus Context</li>
-            <li class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>N=24 Quantitative Survey</li>
+            <li class="flex items-center gap-2 hover:text-white transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>N=27 Quantitative Survey</li>
             <li class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>Affinity Mapping &amp; Clustering</li>
             <li class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>App Concept Design</li>
           </ul>
         </div>
 
-        <!-- Connect -->
-        <div>
-          <h4 class="text-white font-black text-sm uppercase tracking-wider mb-4">Let's Connect</h4>
-          <div class="space-y-3">
-            <a id="behance-link" href="https://www.behance.net/" target="_blank" rel="noopener noreferrer"
-              class="flex items-center gap-3 text-gray-400 hover:text-white transition-all group p-2 rounded-lg hover:bg-white/5">
-              <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                <span class="text-white font-black text-xs">Be</span>
-              </div>
-              <div>
-                <p class="text-white text-sm font-bold">Behance</p>
-                <p class="text-xs text-gray-500">UX Portfolio &amp; Case Studies</p>
-              </div>
-            </a>
-            <a id="github-link" href="https://github.com/" target="_blank" rel="noopener noreferrer"
-              class="flex items-center gap-3 text-gray-400 hover:text-white transition-all group p-2 rounded-lg hover:bg-white/5">
-              <div class="w-9 h-9 rounded-xl bg-gray-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-              </div>
-              <div>
-                <p class="text-white text-sm font-bold">GitHub</p>
-                <p class="text-xs text-gray-500">Code &amp; Project Files</p>
-              </div>
-            </a>
-          </div>
-        </div>
       </div>
 
       <!-- Divider -->
@@ -1652,31 +1749,73 @@
     </div>
   </footer>
 
+  <button id="back-to-top" type="button" class="fixed right-4 bottom-4 sm:right-6 sm:bottom-6 z-40 w-11 h-11 rounded-full bg-forest text-white shadow-xl border border-white/20 flex items-center justify-center hover:bg-forest-dark" aria-label="Back to top">
+    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m5 15 7-7 7 7"/></svg>
+  </button>
+
   <!-- ══════════════════════════════════════════════
        JAVASCRIPT
   ══════════════════════════════════════════════ -->
   <script>
+    // Keep the rendered case-study sequence aligned with the required course rubric.
+    const personaStage = document.getElementById('persona');
+    const definitionStage = document.getElementById('solution');
+    definitionStage.parentNode.insertBefore(personaStage, definitionStage);
+
     // ── Navbar scroll effect ──
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
+    const scrollProgress = document.getElementById('scroll-progress');
+    const backToTop = document.getElementById('back-to-top');
+    let scrollTicking = false;
+
+    const updateScrollUI = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0;
       navbar.classList.toggle('scrolled', window.scrollY > 60);
+      scrollProgress.style.transform = `scaleX(${progress})`;
+      backToTop.classList.toggle('is-visible', window.scrollY > 600);
+      scrollTicking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(updateScrollUI);
+        scrollTicking = true;
+      }
     }, { passive: true });
+    updateScrollUI();
 
     // ── Mobile menu toggle ──
     const menuBtn = document.getElementById('menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconPath = document.querySelector('#menu-icon path');
+
+    const setMenuState = (open) => {
+      mobileMenu.classList.toggle('is-open', open);
+      mobileMenu.setAttribute('aria-hidden', String(!open));
+      mobileMenu.inert = !open;
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuIconPath.setAttribute('d', open ? 'M6 6l12 12M18 6 6 18' : 'M4 6h16M4 12h16M4 18h16');
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+
     menuBtn.addEventListener('click', () => {
-      const isOpen = !mobileMenu.classList.contains('hidden');
-      mobileMenu.classList.toggle('hidden', isOpen);
-      menuBtn.setAttribute('aria-expanded', String(!isOpen));
+      setMenuState(!mobileMenu.classList.contains('is-open'));
     });
 
     // Close mobile menu on link click
     document.querySelectorAll('.mobile-link').forEach(link => {
       link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        menuBtn.setAttribute('aria-expanded', 'false');
+        setMenuState(false);
       });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setMenuState(false);
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) setMenuState(false);
     });
 
     // ── Scroll-reveal (IntersectionObserver) ──
@@ -1733,9 +1872,13 @@
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
           e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
         }
       });
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     });
   </script>
 </body>
