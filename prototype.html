@@ -323,10 +323,18 @@
             </p>
 
             <div class="space-y-2.5" role="tablist" aria-label="Feature navigation">
-              <button class="step-nav-btn active w-full flex items-center gap-3 p-3 rounded-xl border border-forest/30 bg-forest-light/60 text-forest text-left transition-all hover:bg-forest-light" data-view="home">
-                <span class="w-7 h-7 rounded-lg bg-forest text-white font-bold text-xs flex items-center justify-center shrink-0">1.0</span>
+              <button class="step-nav-btn active w-full flex items-center gap-3 p-3 rounded-xl border border-forest/30 bg-forest-light/60 text-forest text-left transition-all hover:bg-forest-light" data-view="welcome">
+                <span class="w-7 h-7 rounded-lg bg-forest text-white font-bold text-xs flex items-center justify-center shrink-0">0.0</span>
                 <div class="min-w-0">
-                  <p class="text-xs font-bold leading-tight">Home / Explore Screen</p>
+                  <p class="text-xs font-bold leading-tight">App Homepage &amp; Guide</p>
+                  <p class="text-[11px] text-gray-500 truncate">What it offers, benefits &amp; how to use</p>
+                </div>
+              </button>
+
+              <button class="step-nav-btn w-full flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50/70 text-gray-700 text-left transition-all hover:bg-gray-100/70" data-view="home">
+                <span class="w-7 h-7 rounded-lg bg-gray-200 text-gray-700 font-bold text-xs flex items-center justify-center shrink-0">1.0</span>
+                <div class="min-w-0">
+                  <p class="text-xs font-bold leading-tight">Explore &amp; Scout Spaces</p>
                   <p class="text-[11px] text-gray-500 truncate">Search, one-tap filters, map/list toggle, live feed</p>
                 </div>
               </button>
@@ -484,8 +492,139 @@
               <!-- App Screen Content -->
               <div class="flex-1 overflow-y-auto px-4 py-3.5 space-y-3.5">
 
-                <!-- ════════ VIEW 1: HOME / EXPLORE ════════ -->
-                <section id="home-view" class="view-panel active space-y-3.5">
+                <!-- ════════ VIEW 0: WELCOME & ONBOARDING HOMEPAGE ════════ -->
+                <section id="welcome-view" class="view-panel active space-y-3.5">
+                  <!-- Greeting & Value Proposition Card -->
+                  <div class="bg-gradient-to-br from-forest to-forest-dark text-white rounded-2xl p-4 shadow-sm relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-[10px] font-black uppercase tracking-wider bg-gold text-forest px-2 py-0.5 rounded-full">
+                        DLSP / PLSP CAMPUS
+                      </span>
+                      <span class="text-[10px] text-green-200 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Active 10 AM Gap
+                      </span>
+                    </div>
+                    <h3 class="text-base font-black text-white leading-tight mb-1">
+                      Mabuhay, Student! 👋
+                    </h3>
+                    <p class="text-xs text-green-100 leading-relaxed mb-3">
+                      Never wander in the tropical heat again. Check live seat capacity, power outlets, and quiet study zones during your class gaps.
+                    </p>
+                    <div class="flex items-center gap-2">
+                      <button id="btn-welcome-explore" class="px-3.5 py-2 rounded-xl bg-gold text-forest font-black text-xs hover:bg-yellow-300 transition-all shadow-md flex items-center gap-1.5">
+                        <span>Find Study Spots Now</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                      </button>
+                      <button id="btn-welcome-map" class="px-3 py-2 rounded-xl bg-white/15 text-white font-bold text-xs hover:bg-white/25 transition-colors border border-white/20">
+                        <span>Map 📍</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- What This App Offers (4 Feature Pillars) -->
+                  <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                      <h4 class="text-xs font-black uppercase tracking-wider text-gray-800">What It Offers</h4>
+                      <span class="text-[10px] text-forest font-bold">Research-Validated</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                      <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 space-y-1">
+                        <div class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs">
+                          🪑
+                        </div>
+                        <strong class="text-xs font-bold text-gray-900 block leading-tight">Live Seat Radar</strong>
+                        <p class="text-[10px] text-gray-500 leading-snug">Real-time room occupancy ratios (e.g. 3/12 seats) so you know before walking.</p>
+                      </div>
+
+                      <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 space-y-1">
+                        <div class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs">
+                          ⚡
+                        </div>
+                        <strong class="text-xs font-bold text-gray-900 block leading-tight">Power Outlets</strong>
+                        <p class="text-[10px] text-gray-500 leading-snug">Locate benches with accessible plugs to keep laptops charged for case studies.</p>
+                      </div>
+
+                      <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 space-y-1">
+                        <div class="w-6 h-6 rounded-lg bg-sky-blue/20 text-sky-800 flex items-center justify-center text-xs">
+                          ❄️
+                        </div>
+                        <strong class="text-xs font-bold text-gray-900 block leading-tight">Climate &amp; Noise</strong>
+                        <p class="text-[10px] text-gray-500 leading-snug">Avoid high heat with temperature telemetry (23°C) and noise ratings.</p>
+                      </div>
+
+                      <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 space-y-1">
+                        <div class="w-6 h-6 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center text-xs">
+                          👥
+                        </div>
+                        <strong class="text-xs font-bold text-gray-900 block leading-tight">2-Tap Reports</strong>
+                        <p class="text-[10px] text-gray-500 leading-snug">Submit crowdsourced room status in &lt;10s to help fellow PLSPians.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- How To Use It (3 Steps) -->
+                  <div class="bg-white border border-gray-200 rounded-2xl p-3.5 space-y-2.5 shadow-2xs">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-sm">📖</span>
+                      <h4 class="text-xs font-black text-gray-900">How To Use (Under 30 Seconds)</h4>
+                    </div>
+
+                    <div class="space-y-2 text-xs text-gray-700">
+                      <div class="flex items-start gap-2.5">
+                        <span class="w-5 h-5 rounded-full bg-forest text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <div>
+                          <p class="font-bold text-gray-900 text-xs leading-tight">Filter Your Specific Need</p>
+                          <p class="text-[11px] text-gray-500">Tap one-touch category chips (Quiet, Outlets, or A/C) while walking.</p>
+                        </div>
+                      </div>
+
+                      <div class="flex items-start gap-2.5">
+                        <span class="w-5 h-5 rounded-full bg-forest text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <div>
+                          <p class="font-bold text-gray-900 text-xs leading-tight">Inspect Space &amp; Walking Route</p>
+                          <p class="text-[11px] text-gray-500">Tap any space card to pull up the bottom action sheet with 2-minute directions.</p>
+                        </div>
+                      </div>
+
+                      <div class="flex items-start gap-2.5">
+                        <span class="w-5 h-5 rounded-full bg-forest text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <div>
+                          <p class="font-bold text-gray-900 text-xs leading-tight">Settle In &amp; Share Quick Status</p>
+                          <p class="text-[11px] text-gray-500">Bookmark your favorites and tap 'Report Status' to broadcast real-time updates.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button id="btn-welcome-start" class="w-full mt-1.5 py-2.5 bg-forest text-white font-black rounded-xl text-xs hover:bg-forest-dark transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                      <span>Start Exploring Live Spaces</span>
+                      <span>&rarr;</span>
+                    </button>
+                  </div>
+
+                  <!-- Quick Peter Parker Storyboard Shortcut -->
+                  <div class="bg-forest-light/60 border border-forest/20 rounded-xl p-3 flex items-center justify-between gap-3">
+                    <div class="min-w-0">
+                      <p class="text-[11px] font-bold text-forest">Try Student Persona Flow</p>
+                      <p class="text-[10px] text-gray-500 truncate">Peter Parker &middot; 10 AM Break at CAS Bench 3</p>
+                    </div>
+                    <button id="btn-welcome-scenario" class="shrink-0 px-2.5 py-1 bg-forest text-white text-[11px] font-bold rounded-lg hover:bg-forest-dark transition-colors">
+                      Test Flow →
+                    </button>
+                  </div>
+                </section>
+
+                <!-- ════════ VIEW 1: EXPLORE / SPACES FEED ════════ -->
+                <section id="home-view" class="view-panel space-y-3.5">
+                  <!-- Return to Guide Banner -->
+                  <button id="btn-back-welcome" class="w-full text-left py-2 px-3 bg-forest-light/70 hover:bg-forest-light rounded-xl border border-forest/20 text-[11px] font-bold text-forest flex items-center justify-between transition-colors shadow-2xs">
+                    <span class="flex items-center gap-1.5">
+                      <span>💡</span>
+                      <span>How It Works &amp; Features Overview</span>
+                    </span>
+                    <span class="text-xs">&larr;</span>
+                  </button>
                   
                   <!-- 1. HEADER ZONE (Ergonomic Sticky Search & Filter Chips) -->
                   <div id="screen-header-zone" class="space-y-2.5 transition-all p-1 rounded-xl">
@@ -753,28 +892,28 @@
                 </div>
               </div>
 
-              <!-- 4. BOTTOM ZONE (Persistent Tab Navigation: Map, Explore, Saved, Profile) -->
+              <!-- 4. BOTTOM ZONE (Persistent Tab Navigation: Home, Explore, Map, Profile) -->
               <nav id="screen-bottom-zone" class="h-16 bg-white border-t border-gray-200 grid grid-cols-4 items-center shrink-0 z-20 transition-all" aria-label="App bottom navigation">
+                <button class="nav-tab active flex flex-col items-center justify-center gap-1 text-forest hover:text-forest transition-colors" data-view="welcome">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                  <span class="text-[10px] font-bold">Home</span>
+                </button>
+
+                <button class="nav-tab flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-forest transition-colors" data-view="home" data-subview="list">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                  <span class="text-[10px] font-bold">Explore</span>
+                </button>
+
                 <button class="nav-tab flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-forest transition-colors" data-view="home" data-subview="map">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                   <span class="text-[10px] font-bold">Map</span>
                 </button>
 
-                <button class="nav-tab active flex flex-col items-center justify-center gap-1 text-forest hover:text-forest transition-colors" data-view="home" data-subview="list">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                  <span class="text-[10px] font-bold">Explore</span>
-                </button>
-
                 <button class="nav-tab flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-forest transition-colors" data-view="profile">
                   <div class="relative">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     <span id="nav-saved-dot" class="hidden absolute -top-1 -right-1 w-2 h-2 rounded-full bg-gold"></span>
                   </div>
-                  <span class="text-[10px] font-bold">Saved</span>
-                </button>
-
-                <button class="nav-tab flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-forest transition-colors" data-view="profile">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                   <span class="text-[10px] font-bold">Profile</span>
                 </button>
               </nav>
@@ -1288,7 +1427,7 @@
     let spaces = JSON.parse(JSON.stringify(initialCampusSpaces));
     let selectedSpace = spaces[0];
     let activeFilter = 'all';
-    let currentView = 'home';
+    let currentView = 'welcome';
     let isMapView = false;
     const savedSpaces = new Set([1]); // Pre-save Main Library for demo
     const reportsHistory = [
@@ -1297,7 +1436,8 @@
 
     // Screen View Metadata
     const viewMeta = {
-      home: { title: 'Campus Study Spaces', subtitle: 'Find a place to focus, anytime, anywhere on campus' },
+      welcome: { title: 'Campus Study Spaces', subtitle: 'What it offers & how to use DLSP/PLSP Finder' },
+      home: { title: 'Scout Study Spaces', subtitle: 'Live capacity & ambient telemetry across campus' },
       details: { title: 'Space Details', subtitle: 'Live capacity & environmental status' },
       report: { title: 'Crowdsource Status', subtitle: 'Broadcast real-time room conditions (<10s)' },
       profile: { title: 'Student Profile & Saved', subtitle: 'Peter Parker (3rd Year Psychology)' }
@@ -1358,13 +1498,24 @@
 
       // App bottom nav tabs
       document.querySelectorAll('.nav-tab').forEach(tab => {
-        const isTabActive = tab.dataset.view === viewName;
+        let isTabActive = false;
+        if (viewName === 'welcome') {
+          isTabActive = tab.dataset.view === 'welcome';
+        } else if (viewName === 'home') {
+          if (isMapView) {
+            isTabActive = tab.dataset.view === 'home' && tab.dataset.subview === 'map';
+          } else {
+            isTabActive = tab.dataset.view === 'home' && tab.dataset.subview === 'list';
+          }
+        } else if (viewName === 'profile') {
+          isTabActive = tab.dataset.view === 'profile';
+        }
         tab.classList.toggle('text-forest', isTabActive);
         tab.classList.toggle('text-gray-400', !isTabActive);
       });
 
       // App bar text
-      const meta = viewMeta[viewName] || viewMeta.home;
+      const meta = viewMeta[viewName] || viewMeta.welcome;
       document.getElementById('view-title').textContent = meta.title;
       document.getElementById('view-subtitle').textContent = meta.subtitle;
 
@@ -1794,10 +1945,38 @@
         toggleMapBtn.classList.toggle('bg-white', isMapView);
         toggleMapBtn.classList.toggle('shadow-2xs', isMapView);
         toggleMapBtn.classList.toggle('text-gray-500', !isMapView);
+
+        if (currentView === 'home') {
+          document.querySelectorAll('.nav-tab').forEach(tab => {
+            const isTabActive = tab.dataset.view === 'home' && tab.dataset.subview === mode;
+            tab.classList.toggle('text-forest', isTabActive);
+            tab.classList.toggle('text-gray-400', !isTabActive);
+          });
+        }
       }
 
       toggleListBtn?.addEventListener('click', () => setViewMode('list'));
       toggleMapBtn?.addEventListener('click', () => setViewMode('map'));
+
+      // Welcome Screen Quick Action Handlers
+      document.getElementById('btn-welcome-explore')?.addEventListener('click', () => {
+        showView('home');
+        setViewMode('list');
+      });
+      document.getElementById('btn-welcome-map')?.addEventListener('click', () => {
+        showView('home');
+        setViewMode('map');
+      });
+      document.getElementById('btn-welcome-start')?.addEventListener('click', () => {
+        showView('home');
+        setViewMode('list');
+      });
+      document.getElementById('btn-welcome-scenario')?.addEventListener('click', () => {
+        document.getElementById('scenario-midterm')?.click();
+      });
+      document.getElementById('btn-back-welcome')?.addEventListener('click', () => {
+        showView('welcome');
+      });
 
       // Scenarios Controller (Peter Parker Journey)
       document.getElementById('scenario-midterm')?.addEventListener('click', () => {
@@ -1996,6 +2175,7 @@
       // Initial Render
       updateSavedBadge();
       renderSpaces();
+      showView('welcome');
     });
   </script>
 </body>
