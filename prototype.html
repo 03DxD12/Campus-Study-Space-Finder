@@ -83,15 +83,225 @@
     /* ── Realistic Smartphone Frame ── */
     .phone-frame {
       box-shadow: 0 35px 85px rgba(0,0,0,0.35), 0 0 0 12px #1f2937, 0 0 0 14px #374151, 0 0 0 15px rgba(255,255,255,0.1);
-      transition: all 0.3s ease;
+      transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+      will-change: box-shadow;
+    }
+    .phone-highlight-pulse {
+      animation: phonePulse 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes phonePulse {
+      0% {
+        box-shadow: 0 35px 85px rgba(0,0,0,0.35), 0 0 0 12px #1f2937, 0 0 0 14px #374151, 0 0 0 15px rgba(255,255,255,0.1);
+      }
+      35% {
+        box-shadow: 0 35px 85px rgba(0,107,60,0.4), 0 0 0 12px #006B3C, 0 0 0 15px #FFD700, 0 0 35px rgba(0,107,60,0.45);
+      }
+      100% {
+        box-shadow: 0 35px 85px rgba(0,0,0,0.35), 0 0 0 12px #1f2937, 0 0 0 14px #374151, 0 0 0 15px rgba(255,255,255,0.1);
+      }
     }
 
-    /* ── Screen Transition & Scrollbars ── */
-    .view-panel { display: none; }
-    .view-panel.active { display: block; animation: viewFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both; }
-    @keyframes viewFadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+    /* ── Screen Transition & View Panels ── */
+    .app-screen {
+      scroll-behavior: smooth;
+    }
+    .view-panel {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px) scale(0.99);
+    }
+    .view-panel.active {
+      display: block;
+      animation: viewSlideIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity;
+    }
+    @keyframes viewSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ── Staggered Component Animations ── */
+    @keyframes cardSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .space-card {
+      animation: cardSlideIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+      transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease, border-color 0.22s ease;
+      will-change: transform, opacity;
+    }
+    .space-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 107, 60, 0.09);
+    }
+    .space-card:active {
+      transform: scale(0.98);
+    }
+
+    /* ── Interactive Campus Map Pins ── */
+    @keyframes pinDrop {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -120%) scale(0.4);
+      }
+      65% {
+        opacity: 1;
+        transform: translate(-50%, -46%) scale(1.14);
+      }
+      85% {
+        transform: translate(-50%, -52%) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    .map-space-pin {
+      animation: pinDrop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.2s ease;
+      will-change: transform, opacity;
+    }
+    .map-space-pin:hover {
+      transform: translate(-50%, -55%) scale(1.12);
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
+    }
+    .map-space-pin:active {
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    /* ── Bottom Action Sheet Drawer & Scrim Backdrop ── */
+    #sheet-backdrop {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #sheet-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .bottom-action-sheet {
+      transform: translateY(105%);
+      transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      will-change: transform;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    .bottom-action-sheet.open {
+      transform: translateY(0%);
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .sheet-action-btn {
+      transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.18s ease;
+    }
+    .sheet-action-btn:hover {
+      transform: translateY(-2px);
+    }
+    .sheet-action-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* ── Filter Chips & Mode Switcher ── */
+    .filter-chip {
+      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: transform;
+    }
+    .filter-chip:hover {
+      transform: translateY(-1px);
+    }
+    .filter-chip:active {
+      transform: scale(0.93);
+    }
+    .filter-chip.active {
+      box-shadow: 0 4px 14px rgba(0, 107, 60, 0.25);
+    }
+
+    .view-mode-btn {
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .view-mode-btn:active {
+      transform: scale(0.94);
+    }
+
+    .mode-fade-in {
+      animation: modeFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes modeFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Report Choices ── */
+    .report-choice {
+      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+      will-change: transform;
+    }
+    .report-choice:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .report-choice:active {
+      transform: scale(0.95);
+    }
+    .report-choice.selected {
+      transform: scale(1.02);
+      box-shadow: 0 4px 14px rgba(0, 107, 60, 0.18);
+    }
+
+    /* ── Dynamic Island ── */
+    #dynamic-island {
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), height 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+      will-change: width, height;
+    }
+
+    /* ── Joyful Icon Pop Animation ── */
+    @keyframes iconPop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.4) rotate(10deg); }
+      75% { transform: scale(0.9) rotate(-5deg); }
+      100% { transform: scale(1) rotate(0); }
+    }
+    .animate-icon-pop {
+      animation: iconPop 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+
+    /* ── Navigation Tab Micro-interactions ── */
+    .nav-tab {
+      transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.18s ease;
+    }
+    .nav-tab:active {
+      transform: scale(0.91);
+    }
+    .nav-tab svg {
+      transition: transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .nav-tab.active svg {
+      transform: scale(1.14);
+    }
+
+    /* ── Companion Controls & Scenarios ── */
+    .step-nav-btn, .scenario-btn, .storyboard-trigger {
+      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+      will-change: transform;
+    }
+    .step-nav-btn:hover, .scenario-btn:hover {
+      transform: translateY(-1px);
+    }
+    .step-nav-btn:active, .scenario-btn:active, .storyboard-trigger:active {
+      transform: scale(0.97);
     }
 
     .app-screen::-webkit-scrollbar { width: 4px; }
@@ -105,13 +315,45 @@
     /* ── Toast & Back-to-Top ── */
     #back-to-top { opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s; }
     #back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
-    #toast { opacity: 0; visibility: hidden; transform: translate(-50%, 16px); transition: all 0.25s ease; }
-    #toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+    #toast {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 20px) scale(0.92);
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0.3s;
+      will-change: transform, opacity;
+    }
+    #toast.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0) scale(1);
+    }
 
     /* ── Ergonomic Thumb Reach Overlay Highlights ── */
-    .zone-active-header #screen-header-zone { outline: 3px dashed #1E90FF; background-color: rgba(30, 144, 255, 0.08); }
-    .zone-active-body #screen-body-zone { outline: 3px dashed #006B3C; background-color: rgba(0, 107, 60, 0.06); }
-    .zone-active-bottom #screen-bottom-zone { outline: 3px dashed #FFD700; background-color: rgba(255, 215, 0, 0.12); }
+    #screen-header-zone, #screen-body-zone, #screen-bottom-zone {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .zone-active-header #screen-header-zone {
+      outline: 2.5px solid #1E90FF;
+      background-color: rgba(30, 144, 255, 0.09);
+      box-shadow: 0 0 20px rgba(30, 144, 255, 0.22);
+      animation: pulseZone 2.2s infinite ease-in-out;
+    }
+    .zone-active-body #screen-body-zone {
+      outline: 2.5px solid #006B3C;
+      background-color: rgba(0, 107, 60, 0.07);
+      box-shadow: 0 0 20px rgba(0, 107, 60, 0.2);
+      animation: pulseZone 2.2s infinite ease-in-out;
+    }
+    .zone-active-bottom #screen-bottom-zone {
+      outline: 2.5px solid #FFD700;
+      background-color: rgba(255, 215, 0, 0.12);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
+      animation: pulseZone 2.2s infinite ease-in-out;
+    }
+    @keyframes pulseZone {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.008); }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto !important; }
@@ -376,7 +618,7 @@
             </p>
 
             <div class="space-y-2">
-              <button id="scenario-midterm" class="w-full text-left p-2.5 rounded-xl border border-gray-200 hover:border-forest/50 hover:bg-forest-light/40 transition-all text-xs font-semibold text-gray-700 flex items-center justify-between group">
+              <button id="scenario-midterm" class="scenario-btn w-full text-left p-2.5 rounded-xl border border-gray-200 hover:border-forest/50 hover:bg-forest-light/40 transition-all text-xs font-semibold text-gray-700 flex items-center justify-between group">
                 <span class="flex items-center gap-2">
                   <span class="text-base">📚</span>
                   <span><strong>10 AM Gap:</strong> Quiet Spot + Outlet (CAS Bench 3)</span>
@@ -384,7 +626,7 @@
                 <span class="text-forest group-hover:translate-x-0.5 transition-transform text-[11px] font-bold">Simulate →</span>
               </button>
 
-              <button id="scenario-library" class="w-full text-left p-2.5 rounded-xl border border-gray-200 hover:border-forest/50 hover:bg-forest-light/40 transition-all text-xs font-semibold text-gray-700 flex items-center justify-between group">
+              <button id="scenario-library" class="scenario-btn w-full text-left p-2.5 rounded-xl border border-gray-200 hover:border-forest/50 hover:bg-forest-light/40 transition-all text-xs font-semibold text-gray-700 flex items-center justify-between group">
                 <span class="flex items-center gap-2">
                   <span class="text-base">🏛️</span>
                   <span><strong>Peak Overcrowding:</strong> Main Library Check (Near Full)</span>
@@ -392,7 +634,7 @@
                 <span class="text-forest group-hover:translate-x-0.5 transition-transform text-[11px] font-bold">Simulate →</span>
               </button>
 
-              <button id="scenario-group" class="w-full text-left p-2.5 rounded-xl border border-gray-200 hover:border-forest/50 hover:bg-forest-light/40 transition-all text-xs font-semibold text-gray-700 flex items-center justify-between group">
+              <button id="scenario-group" class="scenario-btn w-full text-left p-2.5 rounded-xl border border-gray-200 hover:border-forest/50 hover:bg-forest-light/40 transition-all text-xs font-semibold text-gray-700 flex items-center justify-between group">
                 <span class="flex items-center gap-2">
                   <span class="text-base">👥</span>
                   <span><strong>Group Project:</strong> Student Union 101 (Open Tables)</span>
@@ -415,13 +657,13 @@
               Highlight the interaction zones from the design sketch:
             </p>
             <div class="grid grid-cols-3 gap-2 text-[11px] font-bold">
-              <button id="btn-zone-header" class="p-2 rounded-xl border border-gray-200 hover:border-sky-blue text-center text-gray-700 transition-colors">
+              <button id="btn-zone-header" class="p-2 rounded-xl border border-gray-200 hover:border-sky-blue active:scale-95 text-center text-gray-700 transition-all shadow-2xs">
                 1. Header Zone
               </button>
-              <button id="btn-zone-body" class="p-2 rounded-xl border border-gray-200 hover:border-forest text-center text-gray-700 transition-colors">
+              <button id="btn-zone-body" class="p-2 rounded-xl border border-gray-200 hover:border-forest active:scale-95 text-center text-gray-700 transition-all shadow-2xs">
                 2. Body Zone
               </button>
-              <button id="btn-zone-bottom" class="p-2 rounded-xl border border-gray-200 hover:border-gold text-center text-gray-700 transition-colors">
+              <button id="btn-zone-bottom" class="p-2 rounded-xl border border-gray-200 hover:border-gold active:scale-95 text-center text-gray-700 transition-all shadow-2xs">
                 3. Bottom Zone
               </button>
             </div>
@@ -448,9 +690,16 @@
           <div id="phone-container" class="w-full max-w-[420px] bg-gray-900 rounded-[48px] p-3.5 phone-frame relative select-none">
             
             <!-- Speaker Ear-Piece & Dynamic Island -->
-            <div class="absolute top-6 left-1/2 -translate-x-1/2 z-30 w-28 h-5 bg-black rounded-full flex items-center justify-between px-3 shadow-sm">
-              <span class="w-2.5 h-2.5 rounded-full bg-gray-900 border border-gray-800"></span>
-              <span class="w-2 h-2 rounded-full bg-blue-950/60"></span>
+            <div id="dynamic-island" class="absolute top-6 left-1/2 -translate-x-1/2 z-30 min-w-28 h-5 max-h-7 bg-black text-white rounded-full flex items-center justify-between px-3 shadow-md transition-all duration-300 ease-out overflow-hidden">
+              <div id="island-default" class="w-full flex items-center justify-between pointer-events-none">
+                <span class="w-2.5 h-2.5 rounded-full bg-gray-900 border border-gray-800 shrink-0"></span>
+                <span class="w-2 h-2 rounded-full bg-blue-950/60 shrink-0"></span>
+              </div>
+              <div id="island-expanded" class="hidden items-center justify-between w-full text-[10px] font-semibold text-emerald-400 gap-2 whitespace-nowrap">
+                <span id="island-icon" class="text-xs shrink-0">⚡</span>
+                <span id="island-text" class="truncate text-white text-[10px] font-bold">Telemetry Live</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
+              </div>
             </div>
 
             <!-- Phone Screen Window -->
@@ -512,11 +761,11 @@
                       Never wander in the tropical heat again. Check live seat capacity, power outlets, and quiet study zones during your class gaps.
                     </p>
                     <div class="flex items-center gap-2">
-                      <button id="btn-welcome-explore" class="px-3.5 py-2 rounded-xl bg-gold text-forest font-black text-xs hover:bg-yellow-300 transition-all shadow-md flex items-center gap-1.5">
+                      <button id="btn-welcome-explore" class="px-3.5 py-2 rounded-xl bg-gold text-forest font-black text-xs hover:bg-yellow-300 active:scale-95 transition-all shadow-md flex items-center gap-1.5">
                         <span>Find Study Spots Now</span>
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                       </button>
-                      <button id="btn-welcome-map" class="px-3 py-2 rounded-xl bg-white/15 text-white font-bold text-xs hover:bg-white/25 transition-colors border border-white/20">
+                      <button id="btn-welcome-map" class="px-3 py-2 rounded-xl bg-white/15 text-white font-bold text-xs hover:bg-white/25 active:scale-95 transition-all border border-white/20">
                         <span>Map 📍</span>
                       </button>
                     </div>
@@ -597,7 +846,7 @@
                       </div>
                     </div>
 
-                    <button id="btn-welcome-start" class="w-full mt-1.5 py-2.5 bg-forest text-white font-black rounded-xl text-xs hover:bg-forest-dark transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                    <button id="btn-welcome-start" class="w-full mt-1.5 py-2.5 bg-forest text-white font-black rounded-xl text-xs hover:bg-forest-dark active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 shadow-sm">
                       <span>Start Exploring Live Spaces</span>
                       <span>&rarr;</span>
                     </button>
@@ -609,7 +858,7 @@
                       <p class="text-[11px] font-bold text-forest">Try Student Persona Flow</p>
                       <p class="text-[10px] text-gray-500 truncate">Peter Parker &middot; 10 AM Break at CAS Bench 3</p>
                     </div>
-                    <button id="btn-welcome-scenario" class="shrink-0 px-2.5 py-1 bg-forest text-white text-[11px] font-bold rounded-lg hover:bg-forest-dark transition-colors">
+                    <button id="btn-welcome-scenario" class="shrink-0 px-2.5 py-1 bg-forest text-white text-[11px] font-bold rounded-lg hover:bg-forest-dark active:scale-95 transition-all">
                       Test Flow →
                     </button>
                   </div>
@@ -618,7 +867,7 @@
                 <!-- ════════ VIEW 1: EXPLORE / SPACES FEED ════════ -->
                 <section id="home-view" class="view-panel space-y-3.5">
                   <!-- Return to Guide Banner -->
-                  <button id="btn-back-welcome" class="w-full text-left py-2 px-3 bg-forest-light/70 hover:bg-forest-light rounded-xl border border-forest/20 text-[11px] font-bold text-forest flex items-center justify-between transition-colors shadow-2xs">
+                  <button id="btn-back-welcome" class="w-full text-left py-2 px-3 bg-forest-light/70 hover:bg-forest-light active:scale-[0.99] rounded-xl border border-forest/20 text-[11px] font-bold text-forest flex items-center justify-between transition-all shadow-2xs">
                     <span class="flex items-center gap-1.5">
                       <span>💡</span>
                       <span>How It Works &amp; Features Overview</span>
@@ -847,43 +1096,46 @@
 
               </div>
 
+              <!-- Bottom Sheet Scrim Backdrop -->
+              <div id="sheet-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-[2px] z-30" aria-hidden="true"></div>
+
               <!-- 3. BOTTOM ACTION SHEET DRAWER (Matching Hand-Drawn Sketch: Directions, Save, See Details, Share) -->
-              <div id="bottom-action-sheet" class="hidden absolute inset-x-0 bottom-0 z-40 bg-white rounded-t-3xl shadow-2xl border-t border-gray-200/90 p-4 animate-sheet-up">
+              <div id="bottom-action-sheet" class="bottom-action-sheet absolute inset-x-0 bottom-0 z-40 bg-white rounded-t-3xl shadow-2xl border-t border-gray-200/90 p-4" role="dialog" aria-modal="true" aria-labelledby="sheet-space-title">
                 <!-- Drag handle -->
-                <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-3"></div>
+                <div class="w-10 h-1.5 bg-gray-300 rounded-full mx-auto mb-3 cursor-grab"></div>
                 
                 <div class="flex items-start justify-between mb-3">
                   <div>
                     <h3 id="sheet-space-title" class="text-xs font-black text-gray-900">Main Library — 2F</h3>
                     <p id="sheet-space-sub" class="text-[11px] text-gray-500">Silent Study Room &middot; 0.1 mi &middot; 3/12 seats</p>
                   </div>
-                  <button id="btn-close-sheet" class="w-6 h-6 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs font-bold hover:bg-gray-200" aria-label="Close sheet">✕</button>
+                  <button id="btn-close-sheet" class="w-7 h-7 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center text-xs font-bold hover:bg-gray-200 hover:text-gray-800 transition-colors" aria-label="Close sheet">✕</button>
                 </div>
 
                 <!-- 4 Action Icons matching sketch -->
                 <div class="grid grid-cols-4 gap-2 text-center text-[10px] font-bold text-gray-700 mb-3">
-                  <button id="btn-sheet-directions" class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
+                  <button id="btn-sheet-directions" class="sheet-action-btn flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
                     <div class="w-9 h-9 rounded-full bg-forest/10 text-forest flex items-center justify-center">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                     </div>
                     <span>Directions<br/><span class="text-gray-400 font-normal">(2 min)</span></span>
                   </button>
 
-                  <button id="btn-sheet-save" class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
+                  <button id="btn-sheet-save" class="sheet-action-btn flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
                     <div class="w-9 h-9 rounded-full bg-forest/10 text-forest flex items-center justify-center">
                       <svg id="sheet-save-icon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
                     </div>
                     <span id="sheet-save-text">Save</span>
                   </button>
 
-                  <button id="btn-sheet-details" class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
+                  <button id="btn-sheet-details" class="sheet-action-btn flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
                     <div class="w-9 h-9 rounded-full bg-forest/10 text-forest flex items-center justify-center">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
                     <span>See Details</span>
                   </button>
 
-                  <button id="btn-sheet-share" class="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
+                  <button id="btn-sheet-share" class="sheet-action-btn flex flex-col items-center gap-1.5 p-2 rounded-xl bg-gray-50 hover:bg-forest-light hover:text-forest transition-colors">
                     <div class="w-9 h-9 rounded-full bg-forest/10 text-forest flex items-center justify-center">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                     </div>
@@ -1453,7 +1705,49 @@
       toastText.textContent = message;
       toastEl.classList.add('show');
       clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2400);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2600);
+    }
+
+    // ── Interactive Dynamic Island Alerts ──
+    let islandTimer = null;
+    function triggerDynamicIsland(icon, message) {
+      const island = document.getElementById('dynamic-island');
+      const defaultContent = document.getElementById('island-default');
+      const expandedContent = document.getElementById('island-expanded');
+      const islandIcon = document.getElementById('island-icon');
+      const islandText = document.getElementById('island-text');
+      if (!island || !defaultContent || !expandedContent) return;
+
+      islandIcon.textContent = icon;
+      islandText.textContent = message;
+
+      island.style.width = '230px';
+      island.style.height = '28px';
+      island.style.borderRadius = '16px';
+      island.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.45)';
+      defaultContent.classList.add('hidden');
+      expandedContent.classList.remove('hidden');
+      expandedContent.classList.add('flex');
+
+      clearTimeout(islandTimer);
+      islandTimer = setTimeout(() => {
+        island.style.width = '';
+        island.style.height = '';
+        island.style.borderRadius = '';
+        island.style.boxShadow = '';
+        defaultContent.classList.remove('hidden');
+        expandedContent.classList.add('hidden');
+        expandedContent.classList.remove('flex');
+      }, 2400);
+    }
+
+    // ── Phone Frame Attention Highlight ──
+    function highlightPhone() {
+      const phone = document.getElementById('phone-container');
+      if (!phone) return;
+      phone.classList.remove('phone-highlight-pulse');
+      void phone.offsetWidth; // Force CSS reflow
+      phone.classList.add('phone-highlight-pulse');
     }
 
     // ── Live Clock Simulation ──
@@ -1472,12 +1766,13 @@
     function showView(viewName) {
       currentView = viewName;
 
-      // Close bottom action sheet if open
+      // Close bottom action sheet smoothly if open
       closeBottomActionSheet();
 
-      // Screen views
+      // Screen views transition
       document.querySelectorAll('.view-panel').forEach(panel => {
-        panel.classList.toggle('active', panel.id === `${viewName}-view`);
+        const isActive = panel.id === `${viewName}-view`;
+        panel.classList.toggle('active', isActive);
       });
 
       // Sidebar step buttons
@@ -1511,6 +1806,7 @@
           isTabActive = tab.dataset.view === 'profile';
         }
         tab.classList.toggle('text-forest', isTabActive);
+        tab.classList.toggle('active', isTabActive);
         tab.classList.toggle('text-gray-400', !isTabActive);
       });
 
@@ -1524,9 +1820,9 @@
       if (viewName === 'report') setupReportView();
       if (viewName === 'profile') renderProfile();
 
-      // Scroll phone screen to top
+      // Scroll phone screen smoothly to top
       const screen = document.querySelector('.app-screen');
-      if (screen) screen.scrollTop = 0;
+      if (screen) screen.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // ── Render Spaces Feed ──
@@ -1547,11 +1843,11 @@
       const container = document.getElementById('spaces-list-container');
       if (!filtered.length) {
         container.innerHTML = `
-          <div class="py-10 px-4 text-center border-2 border-dashed border-gray-200 rounded-2xl">
+          <div class="py-10 px-4 text-center border-2 border-dashed border-gray-200 rounded-2xl animate-fade-in">
             <span class="text-3xl block mb-2">🔍</span>
             <p class="text-xs font-bold text-gray-700">No study spaces found</p>
             <p class="text-[11px] text-gray-400 mt-1">Try resetting the filter chips or search query</p>
-            <button id="btn-empty-reset" class="mt-3 px-3 py-1 rounded-lg bg-forest text-white text-xs font-bold">Reset Filters</button>
+            <button id="btn-empty-reset" class="mt-3 px-3 py-1 rounded-lg bg-forest text-white text-xs font-bold hover:bg-forest-dark transition-all active:scale-95">Reset Filters</button>
           </div>
         `;
         document.getElementById('btn-empty-reset')?.addEventListener('click', () => {
@@ -1562,7 +1858,7 @@
           renderSpaces();
         });
       } else {
-        container.innerHTML = filtered.map(space => {
+        container.innerHTML = filtered.map((space, index) => {
           const isSaved = savedSpaces.has(space.id);
           let badgeClass = 'text-emerald-800 bg-emerald-100';
           let statusText = `${space.available}/${space.total}`;
@@ -1573,14 +1869,16 @@
           }
 
           return `
-            <div class="space-card group bg-white border border-gray-200/90 rounded-2xl p-3 hover:border-forest/40 hover:shadow-sm transition-all cursor-pointer relative" data-space-id="${space.id}">
+            <div class="space-card group bg-white border border-gray-200/90 rounded-2xl p-3 hover:border-forest/40 hover:shadow-md transition-all cursor-pointer relative" 
+              data-space-id="${space.id}" 
+              style="animation-delay: ${index * 45}ms;">
               <div class="flex items-start justify-between gap-2 mb-1.5">
                 <div>
                   <h4 class="text-xs font-black text-gray-900 group-hover:text-forest transition-colors leading-snug">${space.name}</h4>
                   <p class="text-[10px] text-gray-400">${space.area}</p>
                 </div>
-                <button type="button" class="btn-quick-bookmark p-1 text-gray-300 hover:text-gold transition-colors shrink-0" data-space-id="${space.id}" aria-label="Save ${space.name}">
-                  <svg class="w-4 h-4 ${isSaved ? 'text-gold fill-gold' : ''}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                <button type="button" class="btn-quick-bookmark p-1.5 text-gray-300 hover:text-gold active:scale-90 transition-all shrink-0" data-space-id="${space.id}" aria-label="Save ${space.name}">
+                  <svg class="w-4 h-4 transition-transform ${isSaved ? 'text-gold fill-gold scale-110' : ''}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
                 </button>
               </div>
 
@@ -1590,7 +1888,7 @@
                   <span>📍</span>
                   <span>${space.distance}</span>
                 </span>
-                <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${badgeClass} flex items-center gap-1">
+                <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${badgeClass} flex items-center gap-1 shadow-2xs">
                   <span>👥</span>
                   <span>${statusText} seats</span>
                 </span>
@@ -1617,11 +1915,13 @@
           });
         });
 
-        // Bookmark Toggle
+        // Bookmark Toggle with joyful micro-pop
         document.querySelectorAll('.btn-quick-bookmark').forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const id = Number(btn.dataset.spaceId);
+            const svg = btn.querySelector('svg');
+            if (svg) svg.classList.add('animate-icon-pop');
             toggleSaveSpace(id);
           });
         });
@@ -1634,16 +1934,20 @@
     function renderMapPins(filtered) {
       const container = document.getElementById('map-pins-container');
       if (!container) return;
-      container.innerHTML = filtered.map(space => {
+      container.innerHTML = filtered.map((space, index) => {
         let pinColor = space.occupancy <= 50 ? 'bg-forest' : space.occupancy < 80 ? 'bg-amber-500' : 'bg-rose-500';
+        let pingColor = space.occupancy <= 50 ? 'bg-forest' : space.occupancy < 80 ? 'bg-amber-400' : 'bg-rose-400';
         return `
           <button class="map-space-pin absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer"
-            style="left: ${space.pinPosition.left}; top: ${space.pinPosition.top};" data-map-id="${space.id}">
-            <div class="${pinColor} text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg border-2 border-white flex items-center gap-1 group-hover:scale-110 transition-transform">
-              <span>📍</span>
-              <span>${space.available} left</span>
+            style="left: ${space.pinPosition.left}; top: ${space.pinPosition.top}; animation-delay: ${index * 55}ms;" data-map-id="${space.id}">
+            <div class="relative flex items-center justify-center">
+              <span class="absolute w-full h-full rounded-full ${pingColor} opacity-75 animate-ping"></span>
+              <div class="${pinColor} text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg border-2 border-white flex items-center gap-1 group-hover:scale-110 transition-transform relative z-10">
+                <span>📍</span>
+                <span>${space.available} left</span>
+              </div>
             </div>
-            <div class="bg-gray-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded mt-0.5 opacity-90 truncate max-w-[90px] shadow-xs">
+            <div class="bg-gray-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded mt-0.5 opacity-90 truncate max-w-[90px] shadow-xs group-hover:opacity-100 transition-opacity">
               ${space.name.split('—')[0]}
             </div>
           </button>
@@ -1659,9 +1963,12 @@
       });
     }
 
-    // ── Bottom Action Sheet Drawer (Matching Hand-Drawn Sketch) ──
+    // ── Bottom Action Sheet Drawer ──
     function openBottomActionSheet(space) {
       const sheet = document.getElementById('bottom-action-sheet');
+      const backdrop = document.getElementById('sheet-backdrop');
+      if (!sheet) return;
+
       document.getElementById('sheet-space-title').textContent = space.name;
       document.getElementById('sheet-space-sub').textContent = `${space.area} · ${space.distance} · ${space.available}/${space.total} seats`;
       
@@ -1676,12 +1983,15 @@
         saveText.textContent = 'Save';
       }
 
-      sheet.classList.remove('hidden');
+      sheet.classList.add('open');
+      if (backdrop) backdrop.classList.add('active');
     }
 
     function closeBottomActionSheet() {
       const sheet = document.getElementById('bottom-action-sheet');
-      if (sheet) sheet.classList.add('hidden');
+      const backdrop = document.getElementById('sheet-backdrop');
+      if (sheet) sheet.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('active');
     }
 
     // ── Space Details View Render ──
@@ -1689,15 +1999,15 @@
       const isSaved = savedSpaces.has(selectedSpace.id);
       const container = document.getElementById('details-dynamic-content');
 
-      let badge = '<span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full">Available Now</span>';
+      let badge = '<span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-full shadow-2xs">Available Now</span>';
       if (selectedSpace.occupancy >= 80) {
-        badge = '<span class="text-xs font-bold text-rose-800 bg-rose-100 px-2.5 py-1 rounded-full">Nearly Full (Peak)</span>';
+        badge = '<span class="text-xs font-bold text-rose-800 bg-rose-100 px-2.5 py-1 rounded-full shadow-2xs">Nearly Full (Peak)</span>';
       } else if (selectedSpace.occupancy > 50) {
-        badge = '<span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-full">Filling Up</span>';
+        badge = '<span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-full shadow-2xs">Filling Up</span>';
       }
 
       container.innerHTML = `
-        <div class="bg-gradient-to-br from-forest-dark to-forest text-white rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div class="bg-gradient-to-br from-forest-dark to-forest text-white rounded-2xl p-4 shadow-sm relative overflow-hidden animate-fade-in">
           <div class="flex items-start justify-between gap-2 mb-1.5">
             ${badge}
             <span class="text-[10px] text-green-200 font-medium">${selectedSpace.updated}</span>
@@ -1706,18 +2016,18 @@
           <p class="text-xs text-green-100">${selectedSpace.building} &middot; ${selectedSpace.area}</p>
         </div>
 
-        <div class="grid grid-cols-3 gap-2">
-          <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-center">
+        <div class="grid grid-cols-3 gap-2 animate-fade-in" style="animation-delay: 50ms;">
+          <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-center transition-all hover:bg-gray-100/60">
             <span class="text-gray-400 text-[9px] font-bold uppercase block">Capacity</span>
             <strong class="text-sm font-black text-forest block mt-0.5">${selectedSpace.available} / ${selectedSpace.total}</strong>
             <span class="text-[10px] text-gray-500">Seats Open</span>
           </div>
-          <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-center">
+          <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-center transition-all hover:bg-gray-100/60">
             <span class="text-gray-400 text-[9px] font-bold uppercase block">Climate</span>
             <strong class="text-sm font-black text-gray-800 block mt-0.5">${selectedSpace.temp}</strong>
             <span class="text-[10px] text-gray-500">Cool Air</span>
           </div>
-          <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-center">
+          <div class="bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-center transition-all hover:bg-gray-100/60">
             <span class="text-gray-400 text-[9px] font-bold uppercase block">Noise</span>
             <strong class="text-sm font-black text-gray-800 block mt-0.5">${selectedSpace.noise.split(' ')[0]}</strong>
             <span class="text-[10px] text-gray-500">${selectedSpace.distance}</span>
@@ -1725,7 +2035,7 @@
         </div>
 
         <!-- Walking Navigation Guidance -->
-        <div class="bg-white border border-gray-200 rounded-xl p-3 shadow-2xs">
+        <div class="bg-white border border-gray-200 rounded-xl p-3 shadow-2xs animate-fade-in" style="animation-delay: 100ms;">
           <div class="flex items-center gap-1.5 mb-1 text-xs font-bold text-gray-900">
             <span>🗺️</span>
             <span>Campus Route Guidance</span>
@@ -1734,11 +2044,11 @@
         </div>
 
         <!-- Amenities -->
-        <div class="space-y-1.5">
+        <div class="space-y-1.5 animate-fade-in" style="animation-delay: 140ms;">
           <h4 class="text-xs font-black uppercase tracking-wider text-gray-700">Verified Amenities</h4>
           <div class="grid grid-cols-1 gap-1.5">
             ${selectedSpace.amenities.map(item => `
-              <div class="flex items-center gap-2 text-xs text-gray-700 bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-100">
+              <div class="flex items-center gap-2 text-xs text-gray-700 bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-100 hover:bg-gray-100/50 transition-colors">
                 <span class="w-1.5 h-1.5 rounded-full bg-forest"></span>
                 <span>${item}</span>
               </div>
@@ -1747,19 +2057,19 @@
         </div>
 
         <!-- CTAs -->
-        <div class="pt-2 space-y-2">
-          <button id="btn-start-directions" class="w-full py-3 px-4 rounded-xl bg-forest text-white font-bold text-xs hover:bg-forest-dark transition-all shadow-md flex items-center justify-center gap-1.5">
+        <div class="pt-2 space-y-2 animate-fade-in" style="animation-delay: 180ms;">
+          <button id="btn-start-directions" class="w-full py-3 px-4 rounded-xl bg-forest text-white font-bold text-xs hover:bg-forest-dark active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-1.5">
             <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
             <span>Get Directions (Simulated Route)</span>
           </button>
 
           <div class="grid grid-cols-2 gap-2">
-            <button id="btn-save-detail" class="py-2.5 px-3 rounded-xl border border-gray-300 text-gray-800 text-xs font-bold hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5">
-              <svg class="w-3.5 h-3.5 ${isSaved ? 'text-gold fill-gold' : 'text-gray-400'}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+            <button id="btn-save-detail" class="py-2.5 px-3 rounded-xl border border-gray-300 text-gray-800 text-xs font-bold hover:bg-gray-50 active:scale-95 transition-all flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5 transition-transform ${isSaved ? 'text-gold fill-gold scale-110' : 'text-gray-400'}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
               <span>${isSaved ? 'Saved in Profile' : 'Save Space'}</span>
             </button>
 
-            <button id="btn-trigger-report" class="py-2.5 px-3 rounded-xl border border-forest/30 bg-forest-light text-forest text-xs font-bold hover:bg-forest-light/80 transition-colors flex items-center justify-center gap-1.5">
+            <button id="btn-trigger-report" class="py-2.5 px-3 rounded-xl border border-forest/30 bg-forest-light text-forest text-xs font-bold hover:bg-forest-light/80 active:scale-95 transition-all flex items-center justify-center gap-1.5">
               <span>📢</span>
               <span>Report Status</span>
             </button>
@@ -1768,6 +2078,7 @@
       `;
 
       document.getElementById('btn-start-directions')?.addEventListener('click', () => {
+        triggerDynamicIsland('📍', `Route: ${selectedSpace.distance}`);
         showToast(`Walking route mapped for ${selectedSpace.name} (Estimated: 2 min)`);
       });
       document.getElementById('btn-save-detail')?.addEventListener('click', () => {
@@ -1782,9 +2093,11 @@
     function toggleSaveSpace(id) {
       if (savedSpaces.has(id)) {
         savedSpaces.delete(id);
+        triggerDynamicIsland('🗑️', 'Removed Bookmark');
         showToast('Space removed from saved bookmarks.');
       } else {
         savedSpaces.add(id);
+        triggerDynamicIsland('⭐', 'Saved to Bookmarks');
         showToast('Space bookmarked to your profile! ⭐');
       }
       updateSavedBadge();
@@ -1794,7 +2107,10 @@
     function updateSavedBadge() {
       const count = savedSpaces.size;
       const dot = document.getElementById('nav-saved-dot');
-      if (dot) dot.classList.toggle('hidden', count === 0);
+      if (dot) {
+        dot.classList.toggle('hidden', count === 0);
+        if (count > 0) dot.classList.add('animate-ping-slow');
+      }
       const countBadge = document.getElementById('saved-count-badge');
       if (countBadge) countBadge.textContent = `${count} spot${count === 1 ? '' : 's'}`;
     }
@@ -1804,7 +2120,7 @@
       document.getElementById('report-space-name').textContent = selectedSpace.name;
       document.getElementById('report-review-box').classList.add('hidden');
       document.querySelectorAll('.report-choice').forEach(b => {
-        b.classList.remove('border-forest', 'bg-forest-light', 'ring-2', 'ring-forest');
+        b.classList.remove('border-forest', 'bg-forest-light', 'ring-2', 'ring-forest', 'selected');
       });
       document.querySelectorAll('.btn-back-details').forEach(b => b.addEventListener('click', () => showView('details')));
     }
@@ -1817,18 +2133,18 @@
 
       if (!savedItems.length) {
         savedContainer.innerHTML = `
-          <div class="p-3.5 rounded-xl border border-dashed border-gray-300 text-center text-xs text-gray-500">
+          <div class="p-3.5 rounded-xl border border-dashed border-gray-300 text-center text-xs text-gray-500 animate-fade-in">
             No saved spaces yet. Tap the bookmark icon to save spots for quick access.
           </div>
         `;
       } else {
-        savedContainer.innerHTML = savedItems.map(space => `
-          <div class="flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-forest/40 transition-colors">
+        savedContainer.innerHTML = savedItems.map((space, idx) => `
+          <div class="flex items-center justify-between p-2.5 rounded-xl border border-gray-200 bg-white hover:border-forest/40 hover:shadow-2xs transition-all animate-fade-in" style="animation-delay: ${idx * 40}ms;">
             <div class="cursor-pointer" onclick="selectedSpace = spaces.find(s=>s.id===${space.id}); showView('details');">
-              <strong class="text-xs font-bold text-gray-900 block leading-tight">${space.name}</strong>
+              <strong class="text-xs font-bold text-gray-900 block leading-tight hover:text-forest transition-colors">${space.name}</strong>
               <span class="text-[10px] text-gray-500">${space.available}/${space.total} seats left · ${space.temp}</span>
             </div>
-            <button class="text-xs text-rose-500 hover:text-rose-700 font-bold p-1" onclick="toggleSaveSpace(${space.id}); renderProfile();">
+            <button class="text-xs text-rose-500 hover:text-rose-700 font-bold p-1 active:scale-90 transition-transform" onclick="toggleSaveSpace(${space.id}); renderProfile();">
               Remove
             </button>
           </div>
@@ -1838,13 +2154,13 @@
       const historyContainer = document.getElementById('reports-history-container');
       if (!reportsHistory.length) {
         historyContainer.innerHTML = `
-          <div class="p-3.5 rounded-xl border border-dashed border-gray-300 text-center text-xs text-gray-500">
+          <div class="p-3.5 rounded-xl border border-dashed border-gray-300 text-center text-xs text-gray-500 animate-fade-in">
             No reports filed yet. Test the crowdsource reporting flow to update room status.
           </div>
         `;
       } else {
-        historyContainer.innerHTML = reportsHistory.map(r => `
-          <div class="p-2.5 rounded-xl border border-gray-200 bg-white space-y-0.5">
+        historyContainer.innerHTML = reportsHistory.map((r, idx) => `
+          <div class="p-2.5 rounded-xl border border-gray-200 bg-white space-y-0.5 hover:shadow-2xs transition-all animate-fade-in" style="animation-delay: ${idx * 40}ms;">
             <div class="flex items-center justify-between text-xs">
               <strong class="font-bold text-gray-900">${r.space}</strong>
               <span class="text-[10px] text-gray-400">${r.time}</span>
@@ -1858,12 +2174,44 @@
       }
     }
 
+    // ── Update Thumb Reach Zone Buttons ──
+    function updateZoneButtonStates() {
+      const phoneContainer = document.getElementById('phone-container');
+      if (!phoneContainer) return;
+      const isHeader = phoneContainer.classList.contains('zone-active-header');
+      const isBody = phoneContainer.classList.contains('zone-active-body');
+      const isBottom = phoneContainer.classList.contains('zone-active-bottom');
+
+      const btnH = document.getElementById('btn-zone-header');
+      const btnB = document.getElementById('btn-zone-body');
+      const btnBot = document.getElementById('btn-zone-bottom');
+
+      if (btnH) {
+        btnH.classList.toggle('bg-sky-blue', isHeader);
+        btnH.classList.toggle('text-white', isHeader);
+        btnH.classList.toggle('border-sky-blue', isHeader);
+      }
+      if (btnB) {
+        btnB.classList.toggle('bg-forest', isBody);
+        btnB.classList.toggle('text-white', isBody);
+        btnB.classList.toggle('border-forest', isBody);
+      }
+      if (btnBot) {
+        btnBot.classList.toggle('bg-gold', isBottom);
+        btnBot.classList.toggle('text-forest', isBottom);
+        btnBot.classList.toggle('border-gold', isBottom);
+      }
+    }
+
     // ── DOM Initialization & Event Bindings ──
     document.addEventListener('DOMContentLoaded', () => {
 
       // Sidebar Step Navigation
       document.querySelectorAll('.step-nav-btn').forEach(btn => {
-        btn.addEventListener('click', () => showView(btn.dataset.view));
+        btn.addEventListener('click', () => {
+          showView(btn.dataset.view);
+          highlightPhone();
+        });
       });
 
       // Phone Bottom Navigation Tabs
@@ -1879,20 +2227,26 @@
         });
       });
 
-      // Bottom Action Sheet Buttons
+      // Bottom Action Sheet Buttons & Backdrop Click
       document.getElementById('btn-close-sheet')?.addEventListener('click', closeBottomActionSheet);
+      document.getElementById('sheet-backdrop')?.addEventListener('click', closeBottomActionSheet);
+
       document.getElementById('btn-sheet-details')?.addEventListener('click', () => {
         closeBottomActionSheet();
         showView('details');
       });
       document.getElementById('btn-sheet-directions')?.addEventListener('click', () => {
+        triggerDynamicIsland('🗺️', 'Routing 2 min');
         showToast(`Directions prepared for ${selectedSpace.name} (2 min walk)`);
       });
       document.getElementById('btn-sheet-save')?.addEventListener('click', () => {
+        const icon = document.getElementById('sheet-save-icon');
+        if (icon) icon.classList.add('animate-icon-pop');
         toggleSaveSpace(selectedSpace.id);
         openBottomActionSheet(selectedSpace);
       });
       document.getElementById('btn-sheet-share')?.addEventListener('click', () => {
+        triggerDynamicIsland('🔗', 'Link Copied');
         showToast(`Link copied: ${selectedSpace.name} availability shared.`);
       });
 
@@ -1935,8 +2289,19 @@
 
       function setViewMode(mode) {
         isMapView = mode === 'map';
-        document.getElementById('spaces-list-container').classList.toggle('hidden', isMapView);
-        document.getElementById('map-view-container').classList.toggle('hidden', !isMapView);
+        const listContainer = document.getElementById('spaces-list-container');
+        const mapContainer = document.getElementById('map-view-container');
+
+        if (isMapView) {
+          listContainer.classList.add('hidden');
+          mapContainer.classList.remove('hidden');
+          mapContainer.classList.add('mode-fade-in');
+        } else {
+          mapContainer.classList.add('hidden');
+          listContainer.classList.remove('hidden');
+          listContainer.classList.add('mode-fade-in');
+        }
+
         toggleListBtn.classList.toggle('text-forest', !isMapView);
         toggleListBtn.classList.toggle('bg-white', !isMapView);
         toggleListBtn.classList.toggle('shadow-2xs', !isMapView);
@@ -1950,6 +2315,7 @@
           document.querySelectorAll('.nav-tab').forEach(tab => {
             const isTabActive = tab.dataset.view === 'home' && tab.dataset.subview === mode;
             tab.classList.toggle('text-forest', isTabActive);
+            tab.classList.toggle('active', isTabActive);
             tab.classList.toggle('text-gray-400', !isTabActive);
           });
         }
@@ -1980,6 +2346,7 @@
 
       // Scenarios Controller (Peter Parker Journey)
       document.getElementById('scenario-midterm')?.addEventListener('click', () => {
+        highlightPhone();
         showView('home');
         setViewMode('list');
         activeFilter = 'outlets';
@@ -1989,10 +2356,12 @@
         renderSpaces();
         selectedSpace = spaces.find(s => s.id === 2); // CAS Bench 3
         openBottomActionSheet(selectedSpace);
+        triggerDynamicIsland('⚡', 'CAS Bench 3 (Outlets)');
         showToast('Scenario: Peter finds CAS Bench 3 with outlets! ⚡');
       });
 
       document.getElementById('scenario-library')?.addEventListener('click', () => {
+        highlightPhone();
         showView('home');
         setViewMode('list');
         activeFilter = 'quiet';
@@ -2002,10 +2371,12 @@
         renderSpaces();
         selectedSpace = spaces.find(s => s.id === 1);
         openBottomActionSheet(selectedSpace);
+        triggerDynamicIsland('🏛️', 'Main Library: 75% Full');
         showToast('Scenario: Main Library is nearly full (75% occupancy) 🏛️');
       });
 
       document.getElementById('scenario-group')?.addEventListener('click', () => {
+        highlightPhone();
         showView('home');
         setViewMode('list');
         activeFilter = 'group';
@@ -2015,26 +2386,31 @@
         renderSpaces();
         selectedSpace = spaces.find(s => s.id === 3);
         openBottomActionSheet(selectedSpace);
+        triggerDynamicIsland('👥', 'SU 101 Collaboration');
         showToast('Scenario: Student Union collaboration room available 👥');
       });
 
       // Storyboard Click Triggers
       document.querySelectorAll('.storyboard-trigger').forEach(trigger => {
         trigger.addEventListener('click', () => {
+          highlightPhone();
           const step = trigger.dataset.step;
           if (step === '1' || step === '2') {
             showView('home');
             activeFilter = 'all';
             updateFilterPills();
             renderSpaces();
+            triggerDynamicIsland('📱', 'Peter Scouts Spaces');
           } else if (step === '3') {
             showView('home');
             activeFilter = 'outlets';
             updateFilterPills();
             renderSpaces();
+            triggerDynamicIsland('⚡', 'Filtered: Outlets & Quiet');
           } else if (step === '4') {
             selectedSpace = spaces.find(s => s.id === 2);
             showView('details');
+            triggerDynamicIsland('💻', 'Peter Seated CAS 3');
           }
           document.getElementById('prototype-container')?.scrollIntoView({ behavior: 'smooth' });
         });
@@ -2045,18 +2421,22 @@
       document.getElementById('btn-zone-header')?.addEventListener('click', () => {
         phoneContainer.classList.toggle('zone-active-header');
         phoneContainer.classList.remove('zone-active-body', 'zone-active-bottom');
+        updateZoneButtonStates();
       });
       document.getElementById('btn-zone-body')?.addEventListener('click', () => {
         phoneContainer.classList.toggle('zone-active-body');
         phoneContainer.classList.remove('zone-active-header', 'zone-active-bottom');
+        updateZoneButtonStates();
       });
       document.getElementById('btn-zone-bottom')?.addEventListener('click', () => {
         phoneContainer.classList.toggle('zone-active-bottom');
         phoneContainer.classList.remove('zone-active-header', 'zone-active-body');
+        updateZoneButtonStates();
       });
 
       // Reset Telemetry Action
       document.getElementById('btn-reset-demo')?.addEventListener('click', () => {
+        highlightPhone();
         spaces = JSON.parse(JSON.stringify(initialCampusSpaces));
         selectedSpace = spaces[0];
         activeFilter = 'all';
@@ -2072,6 +2452,7 @@
         renderSpaces();
         showView('home');
         setViewMode('list');
+        triggerDynamicIsland('🔄', 'Telemetry Reset');
         showToast('Simulated telemetry restored to baseline.');
       });
 
@@ -2080,9 +2461,9 @@
         group.querySelectorAll('.report-choice').forEach(choice => {
           choice.addEventListener('click', () => {
             group.querySelectorAll('.report-choice').forEach(c => {
-              c.classList.remove('border-forest', 'bg-forest-light', 'ring-2', 'ring-forest');
+              c.classList.remove('border-forest', 'bg-forest-light', 'ring-2', 'ring-forest', 'selected');
             });
-            choice.classList.add('border-forest', 'bg-forest-light', 'ring-2', 'ring-forest');
+            choice.classList.add('border-forest', 'bg-forest-light', 'ring-2', 'ring-forest', 'selected');
             
             const occ = document.querySelector('[data-report-group="occupancy"] .border-forest');
             const com = document.querySelector('[data-report-group="comfort"] .border-forest');
@@ -2096,8 +2477,9 @@
         });
       });
 
-      // Submit Crowdsource Report
-      document.getElementById('btn-submit-report')?.addEventListener('click', () => {
+      // Submit Crowdsource Report with simulated network state
+      const submitReportBtn = document.getElementById('btn-submit-report');
+      submitReportBtn?.addEventListener('click', () => {
         const occ = document.querySelector('[data-report-group="occupancy"] .border-forest');
         const com = document.querySelector('[data-report-group="comfort"] .border-forest');
         if (!occ || !com) {
@@ -2105,30 +2487,44 @@
           return;
         }
 
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        reportsHistory.unshift({
-          space: selectedSpace.name,
-          occupancy: occ.dataset.val,
-          comfort: com.dataset.val,
-          time: `Just now (${timeStr})`
-        });
+        // Animated broadcasting state
+        submitReportBtn.disabled = true;
+        const originalContent = submitReportBtn.innerHTML;
+        submitReportBtn.innerHTML = `
+          <svg class="w-4 h-4 text-gold animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+          <span>Broadcasting Telemetry...</span>
+        `;
 
-        // Mutate live space capacity
-        if (occ.dataset.val === 'Low') {
-          selectedSpace.occupancy = 25;
-          selectedSpace.available = Math.max(1, Math.round(selectedSpace.total * 0.75));
-        } else if (occ.dataset.val === 'Moderate') {
-          selectedSpace.occupancy = 50;
-          selectedSpace.available = Math.max(1, Math.round(selectedSpace.total * 0.5));
-        } else {
-          selectedSpace.occupancy = 92;
-          selectedSpace.available = 1;
-        }
-        selectedSpace.updated = 'Updated just now';
+        setTimeout(() => {
+          submitReportBtn.disabled = false;
+          submitReportBtn.innerHTML = originalContent;
 
-        showToast('Telemetry broadcasted! Room status updated. 📡');
-        showView('profile');
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          reportsHistory.unshift({
+            space: selectedSpace.name,
+            occupancy: occ.dataset.val,
+            comfort: com.dataset.val,
+            time: `Just now (${timeStr})`
+          });
+
+          // Mutate live space capacity
+          if (occ.dataset.val === 'Low') {
+            selectedSpace.occupancy = 25;
+            selectedSpace.available = Math.max(1, Math.round(selectedSpace.total * 0.75));
+          } else if (occ.dataset.val === 'Moderate') {
+            selectedSpace.occupancy = 50;
+            selectedSpace.available = Math.max(1, Math.round(selectedSpace.total * 0.5));
+          } else {
+            selectedSpace.occupancy = 92;
+            selectedSpace.available = 1;
+          }
+          selectedSpace.updated = 'Updated just now';
+
+          triggerDynamicIsland('📡', 'Telemetry Broadcasted!');
+          showToast('Telemetry broadcasted! Room status updated. 📡');
+          showView('profile');
+        }, 500);
       });
 
       // Navbar Scroll & Progress Bar

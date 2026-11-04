@@ -1,0 +1,17 @@
+# Repository Engineering Directives
+
+- Break complex tasks into small, ordered steps; keep simple work direct.
+- Inspect relevant code first and preserve unrelated user changes.
+- Make precise, targeted edits instead of rewriting intact modules.
+- Deliver complete, runnable code with no placeholder implementations or filler.
+- Prefer the simplest sufficient solution; avoid unnecessary dependencies,
+  wrappers, abstractions, and bloated files.
+- Run relevant checks after changes, fix issues caused by the work, and never
+  claim a check passed unless it was actually run.
+- Audit changes for logic bugs, edge cases, security risks, type safety,
+  regressions, and missing validation before completion.
+- Build UI with semantic structure, responsive behavior, keyboard access,
+  visible focus states, accessible labels, sufficient contrast, and appropriate
+  reduced-motion support.
+- Follow higher-priority platform and user instructions if they conflict with
+  this file.
