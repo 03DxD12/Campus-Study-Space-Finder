@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Campus Study Space Finder | DLSP / PLSP UX Case Study</title>
-  <meta name="description" content="A UX Research Case Study addressing peak-hour overcrowding and study-space navigation challenges for college students at Dalubhasaan ng Lunsod ng San Pablo / Pamantasan ng Lungsod ng San Pablo." />
+  <title>Denmhar S. Dimaculangan | UI/UX Designer &amp; Frontend Developer</title>
+  <meta name="description" content="Portfolio of Denmhar S. Dimaculangan, a UI/UX designer and frontend developer. Explore the research-backed Campus Study Space Finder UX case study." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -74,6 +74,24 @@
     }
     .hero-glow {
       position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+    }
+    .portfolio-intro-bg {
+      background: linear-gradient(135deg, #064e3b 0%, #065f46 48%, #047857 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-intro-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black 35%, transparent 100%);
+    }
+    .portrait-card {
+      box-shadow: 0 30px 70px rgba(0, 31, 22, 0.38), 0 0 0 1px rgba(255,255,255,0.08);
     }
 
     /* ── Stat cards ── */
@@ -153,6 +171,9 @@
       .reveal { opacity: 1; transform: none; }
     }
   </style>
+  <meta name="description" content="A UX Research Case Study addressing peak-hour overcrowding and study-space navigation challenges for college students at Dalubhasaan ng Lunsod ng San Pablo / Pamantasan ng Lungsod ng San Pablo.">
+  <meta property="og:title" content="Denmhar S. Dimaculangan | UI/UX Designer & Frontend Developer">
+  <meta property="og:description" content="A UX Research Case Study addressing peak-hour overcrowding and study-space navigation challenges for college students at Dalubhasaan ng Lunsod ng San Pablo / Pamantasan ng Lungsod ng San Pablo.">
 </head>
 <body class="antialiased">
 
@@ -165,7 +186,7 @@
         <!-- Brand -->
         <a href="#hero" class="flex items-center gap-2 group" aria-label="Go to top">
           <span class="w-8 h-8 rounded-lg bg-gold flex items-center justify-center text-forest font-black text-sm shadow-md group-hover:scale-110 transition-transform">D</span>
-          <span class="text-white font-semibold text-sm hidden sm:block">Denmhar · UX Portfolio</span>
+          <span class="text-white font-semibold text-sm hidden sm:block">Denmhar S. Dimaculangan · UX Portfolio</span>
         </a>
         <!-- Desktop Nav -->
         <div class="hidden md:flex items-center gap-6 text-sm text-green-100 font-medium">
@@ -189,6 +210,8 @@
     </div>
     <!-- Mobile menu -->
     <div id="mobile-menu" class="md:hidden bg-forest-dark border-t border-green-700 px-4 pb-4 pt-2 space-y-1" aria-hidden="true" inert>
+      <a href="#hero" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Portfolio Introduction</a>
+      <a href="#campus-study-space-finder" class="mobile-link block py-2 text-gold hover:bg-white/10 rounded-lg px-3 text-sm font-bold transition-colors">Campus Study Space Finder</a>
       <a href="#research" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">Project Overview</a>
       <a href="#data" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">UX Research</a>
       <a href="#voices" class="mobile-link block py-2 text-green-100 hover:text-white hover:bg-white/10 rounded-lg px-3 text-sm font-medium transition-colors">User Voices</a>
@@ -208,9 +231,85 @@
   </nav>
 
   <!-- ══════════════════════════════════════════════
-       HERO
+       PERSONAL PORTFOLIO INTRO
   ══════════════════════════════════════════════ -->
-  <section id="hero" class="hero-bg min-h-screen flex flex-col justify-center pt-16">
+  <section id="hero" class="portfolio-intro-bg pt-24 pb-12 lg:min-h-[82vh] lg:flex lg:items-center text-white">
+    <div class="hero-glow w-72 h-72 bg-gold/15 -top-20 -left-20"></div>
+    <div class="hero-glow w-80 h-80 bg-emerald-300/10 bottom-0 right-0"></div>
+
+    <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-[1.18fr_0.82fr] gap-10 lg:gap-16 items-center">
+        <div class="animate-fade-up">
+          <h1 class="text-4xl sm:text-5xl xl:text-6xl font-black leading-[1.05] tracking-tight mb-4">
+            Hi, I'm
+            <span class="block text-gold">Denmhar S. Dimaculangan</span>
+          </h1>
+          <p class="text-lg sm:text-xl text-white font-bold mb-5">
+            UI/UX Designer <span class="text-green-200">(Figma · Canva · Adobe)</span>
+            <span class="hidden sm:inline text-gold"> &amp; </span>
+            <span class="block sm:inline">Frontend Developer</span>
+          </p>
+          <p class="max-w-2xl text-sm sm:text-base text-green-100/90 leading-relaxed mb-5">
+            I design research-backed digital experiences from user discovery to interactive prototypes and responsive web code.
+          </p>
+
+          <div class="flex flex-wrap gap-2 mb-6" aria-label="Core technology stack">
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-bold">Figma</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-bold">Canva</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-bold">Adobe</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-bold">HTML5 / CSS3</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-bold">JavaScript</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-bold">Tailwind CSS</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-bold">Python</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 mb-7">
+            <a href="#campus-study-space-finder" class="inline-flex min-h-12 items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gold text-forest font-black text-sm shadow-lg hover:bg-yellow-300 hover:-translate-y-0.5 transition-all">
+              Explore Case Study
+              <span aria-hidden="true">&darr;</span>
+            </a>
+            <a href="mailto:denmhardimaculangan12@gmail.com" class="inline-flex min-h-12 items-center justify-center px-6 py-3 rounded-xl bg-white/10 text-white font-bold text-sm border border-white/25 hover:bg-white/20 transition-colors">
+              Contact Me
+            </a>
+          </div>
+
+          <div class="grid grid-cols-2 max-w-md rounded-2xl bg-black/10 border border-white/15 overflow-hidden backdrop-blur-sm mb-4">
+            <div class="px-3 sm:px-5 py-3 border-r border-white/15">
+              <strong class="block text-lg sm:text-xl font-black text-gold">17+</strong>
+              <span class="text-[11px] sm:text-xs text-green-100">Projects</span>
+            </div>
+            <div class="px-3 sm:px-5 py-3">
+              <strong class="block text-lg sm:text-xl font-black text-gold">39</strong>
+              <span class="text-[11px] sm:text-xs text-green-100">Verified Badges</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-green-200">
+            <a href="mailto:denmhardimaculangan12@gmail.com" class="hover:text-white transition-colors">denmhardimaculangan12@gmail.com</a>
+            <a href="tel:+639995954454" class="hover:text-white transition-colors">0999 595 4454</a>
+            <a href="https://github.com/03DxD12" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">GitHub: @03DxD12 &nearr;</a>
+          </div>
+        </div>
+
+        <div class="animate-fade-in flex justify-center lg:justify-end" style="animation-delay:0.18s">
+          <div class="relative w-full max-w-[360px]">
+            <div class="absolute -inset-4 rounded-[2.25rem] bg-gold/10 blur-2xl"></div>
+            <div class="portrait-card relative rounded-[2rem] border border-white/20 bg-white/10 p-3 backdrop-blur-md">
+              <div class="absolute top-0 left-8 right-8 h-1 rounded-b-full bg-gold"></div>
+              <div class="aspect-[4/5] rounded-[1.45rem] overflow-hidden bg-white">
+                <img src="assets/denmhar-portrait.jpg" alt="Formal portrait of Denmhar S. Dimaculangan" class="w-full h-full object-cover object-top" width="1024" height="1024" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       CAMPUS STUDY SPACE FINDER HERO
+  ══════════════════════════════════════════════ -->
+  <section id="campus-study-space-finder" class="hero-bg min-h-screen flex flex-col justify-center">
     <!-- Glow blobs -->
     <div class="hero-glow w-96 h-96 bg-gold/10 -top-20 -left-20"></div>
     <div class="hero-glow w-80 h-80 bg-sky-blue/10 bottom-10 right-0"></div>
@@ -245,6 +344,9 @@
         </a>
         <a href="#solution" class="px-6 py-3 bg-white/10 text-white font-semibold rounded-xl border border-white/25 hover:bg-white/20 transition-all text-sm backdrop-blur-sm">
           See Solution Concept
+        </a>
+        <a href="https://www.behance.net/gallery/257152609/Campus-Study-Space-Finder-Mobile-UXUI-Case-Study" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-white/10 text-white font-semibold rounded-xl border border-white/25 hover:bg-white/20 transition-all text-sm backdrop-blur-sm">
+          Published Behance Project &nearr;
         </a>
       </div>
 
@@ -295,7 +397,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       01. PROJECT OVERVIEW & UX PROJECT BRIEF
+    1. PROJECT OVERVIEW & UX PROJECT BRIEF
   ══════════════════════════════════════════════ -->
   <section id="research" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -310,7 +412,7 @@
       </div>
 
       <!-- 3-card grid -->
-      <div class="grid md:grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
         <!-- Problem Statement -->
         <div class="reveal group bg-white rounded-2xl border-2 border-forest/20 hover:border-forest p-7 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-forest to-green-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -352,11 +454,40 @@
           </p>
         </div>
       </div>
+
+      <!-- Research plan and ethical practice -->
+      <div class="reveal bg-gray-50 rounded-2xl p-6 sm:p-8 border border-gray-200">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3 mb-6">
+          <div>
+            <span class="tag-badge inline-block px-2.5 py-1 bg-forest/10 text-forest text-xs font-black rounded-full border border-forest/20 uppercase tracking-wider mb-2">Research Plan &amp; Ethics</span>
+            <h3 class="text-xl font-black text-black">How the evidence was gathered</h3>
+          </div>
+          <p class="text-xs text-gray-500 max-w-md">Quantitative survey measures were paired with thematic synthesis of open-ended responses from the same research instrument.</p>
+        </div>
+        <dl class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-xl p-4 border border-gray-200">
+            <dt class="text-xs font-black text-forest uppercase tracking-wider">Participants</dt>
+            <dd class="text-sm text-gray-600 mt-2">27 enrolled DLSP / PLSP students across academic colleges.</dd>
+          </div>
+          <div class="bg-white rounded-xl p-4 border border-gray-200">
+            <dt class="text-xs font-black text-sky-blue uppercase tracking-wider">Method</dt>
+            <dd class="text-sm text-gray-600 mt-2">Google Forms survey covering search habits, time loss, environmental barriers, and open-response experiences.</dd>
+          </div>
+          <div class="bg-white rounded-xl p-4 border border-gray-200">
+            <dt class="text-xs font-black text-amber-600 uppercase tracking-wider">Analysis</dt>
+            <dd class="text-sm text-gray-600 mt-2">Descriptive percentages plus affinity clustering of anonymized open-ended responses.</dd>
+          </div>
+          <div class="bg-white rounded-xl p-4 border border-gray-200">
+            <dt class="text-xs font-black text-flame uppercase tracking-wider">Ethical Practice</dt>
+            <dd class="text-sm text-gray-600 mt-2">Voluntary digital consent, removal of personal identifiers, and anonymous presentation of quotations.</dd>
+          </div>
+        </dl>
+      </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════
-       02. UX RESEARCH — QUANTITATIVE FINDINGS
+    1. UX RESEARCH — QUANTITATIVE FINDINGS
   ══════════════════════════════════════════════ -->
   <section id="data" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -367,7 +498,7 @@
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">UX Research: Quantitative Findings</h2>
-        <p class="text-gray-500 text-base max-w-xl">Survey responses from <strong class="text-forest">N = 27 enrolled DLSP / PLSP students</strong> reveal clear, compelling patterns validated through a mixed-methods research strategy.</p>
+        <p class="text-gray-500 text-base max-w-xl">Survey responses from <strong class="text-forest">N = 27 enrolled DLSP / PLSP students</strong> combine quantitative measures with thematic analysis of open-ended responses.</p>
       </div>
 
       <!-- 4 Stat cards -->
@@ -431,7 +562,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
           <div>
             <h3 class="text-xl font-black text-black">Top Study Locations on Campus</h3>
-            <p class="text-gray-500 text-sm mt-1">Where students currently find themselves studying (multiple answers allowed)</p>
+            <p class="text-gray-500 text-sm mt-1">Where students currently find themselves studying. This item received 24 valid responses and allowed multiple selections.</p>
           </div>
           <span class="tag-badge inline-block px-3 py-1 bg-forest/10 text-forest text-xs font-bold rounded-full border border-forest/20">n=24 valid responses · Multiple selections allowed</span>
         </div>
@@ -523,7 +654,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       02. UX RESEARCH — USER VOICES & AFFINITY MAPPING
+    1. UX RESEARCH — USER VOICES & AFFINITY MAPPING
   ══════════════════════════════════════════════ -->
   <section id="voices" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -632,7 +763,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       02. UX RESEARCH — SYNTHESIZED FINDINGS
+    1. UX RESEARCH — SYNTHESIZED FINDINGS
   ══════════════════════════════════════════════ -->
   <section id="insights" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -766,7 +897,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       04. PROBLEM DEFINITION, DESIGN REQUIREMENTS & GOALS
+    1. PROBLEM DEFINITION, DESIGN REQUIREMENTS & GOALS
   ══════════════════════════════════════════════ -->
   <section id="solution" class="py-20 md:py-28 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -843,20 +974,20 @@
                   <div class="grid grid-cols-3 gap-1.5 text-center">
                     <div class="bg-gray-50 rounded-lg py-1">
                       <div class="text-xs font-black text-forest">12</div>
-                      <div class="text-xs text-gray-400" style="font-size:9px">Seats</div>
+                      <div class="text-xs text-gray-500">Seats</div>
                     </div>
                     <div class="bg-gray-50 rounded-lg py-1">
                       <div class="text-xs font-black text-sky-blue">24C</div>
-                      <div class="text-gray-400" style="font-size:9px">Temp</div>
+                      <div class="text-xs text-gray-500">Temp</div>
                     </div>
                     <div class="bg-gray-50 rounded-lg py-1">
                       <div class="text-xs font-black text-forest">4</div>
-                      <div class="text-gray-400" style="font-size:9px">Outlets</div>
+                      <div class="text-xs text-gray-500">Outlets</div>
                     </div>
                   </div>
                   <!-- Occupancy bar -->
                   <div class="mt-2">
-                    <div class="flex justify-between text-xs text-gray-400 mb-1" style="font-size:9px"><span>Occupancy</span><span>35%</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-1"><span>Occupancy</span><span>35%</span></div>
                     <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div class="h-full w-1/3 bg-green-400 rounded-full"></div>
                     </div>
@@ -874,19 +1005,19 @@
                   <div class="grid grid-cols-3 gap-1.5 text-center">
                     <div class="bg-gray-50 rounded-lg py-1">
                       <div class="text-xs font-black text-amber-500">6</div>
-                      <div class="text-xs text-gray-400" style="font-size:9px">Seats</div>
+                      <div class="text-xs text-gray-500">Seats</div>
                     </div>
                     <div class="bg-gray-50 rounded-lg py-1">
                       <div class="text-xs font-black text-flame">31C</div>
-                      <div class="text-gray-400" style="font-size:9px">Temp</div>
+                      <div class="text-xs text-gray-500">Temp</div>
                     </div>
                     <div class="bg-gray-50 rounded-lg py-1">
                       <div class="text-xs font-black text-gray-400">0</div>
-                      <div class="text-gray-400" style="font-size:9px">Outlets</div>
+                      <div class="text-xs text-gray-500">Outlets</div>
                     </div>
                   </div>
                   <div class="mt-2">
-                    <div class="flex justify-between text-xs text-gray-400 mb-1" style="font-size:9px"><span>Occupancy</span><span>70%</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-1"><span>Occupancy</span><span>70%</span></div>
                     <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div class="h-full w-2/3 bg-amber-400 rounded-full"></div>
                     </div>
@@ -902,7 +1033,7 @@
                     <span class="px-2 py-0.5 bg-red-100 text-red-600 text-xs font-bold rounded-full">Full</span>
                   </div>
                   <div class="mt-2">
-                    <div class="flex justify-between text-xs text-gray-400 mb-1" style="font-size:9px"><span>Occupancy</span><span>100%</span></div>
+                    <div class="flex justify-between text-xs text-gray-500 mb-1"><span>Occupancy</span><span>100%</span></div>
                     <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div class="h-full w-full bg-red-400 rounded-full"></div>
                     </div>
@@ -1000,7 +1131,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       03. USER PERSONA, USER STORIES & JOURNEY MAP
+    1. USER PERSONA, USER STORIES & JOURNEY MAP
   ══════════════════════════════════════════════ -->
   <section id="persona" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1106,7 +1237,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       05. INFORMATION ARCHITECTURE, SITEMAP & USER FLOW
+    1. INFORMATION ARCHITECTURE, SITEMAP & USER FLOW
   ══════════════════════════════════════════════ -->
   <section id="ia" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1211,7 +1342,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       06. STORYBOARD, SKETCHES & LOW-FIDELITY WIREFRAMES
+    1. STORYBOARD, SKETCHES & LOW-FIDELITY WIREFRAMES
   ══════════════════════════════════════════════ -->
   <section id="wireframes" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1237,12 +1368,12 @@
           <div class="bg-amber-50 rounded-xl p-4 border border-amber-200 text-center">
             <div class="text-3xl mb-2">🚶</div>
             <p class="text-xs font-bold text-amber-600 mb-1">Panel 2</p>
-            <p class="text-xs text-gray-500">She walks to library. It's full. Walks to hallway — noisy.</p>
+            <p class="text-xs text-gray-500">He walks to the library. It is full, so he checks the hallway, which is too noisy.</p>
           </div>
           <div class="bg-red-50 rounded-xl p-4 border border-red-200 text-center">
             <div class="text-3xl mb-2">😩</div>
             <p class="text-xs font-bold text-red-500 mb-1">Panel 3</p>
-            <p class="text-xs text-gray-500">30 minutes gone. She sits on the floor, drained.</p>
+            <p class="text-xs text-gray-500">Thirty minutes are gone. He sits on the floor, drained and unable to focus.</p>
           </div>
           <div class="bg-forest/5 rounded-xl p-4 border border-forest/20 text-center">
             <div class="text-3xl mb-2">📱</div>
@@ -1257,7 +1388,7 @@
           <div class="bg-green-50 rounded-xl p-4 border border-green-200 text-center">
             <div class="text-3xl mb-2">✅</div>
             <p class="text-xs font-bold text-green-600 mb-1">Panel 6</p>
-            <p class="text-xs text-gray-500">Goes directly. Gets a seat in 2 min. Reviews for her quiz.</p>
+            <p class="text-xs text-gray-500">He goes directly to the selected space, gets a seat, and begins reviewing for his quiz.</p>
           </div>
         </div>
       </div>
@@ -1328,13 +1459,16 @@
             <p class="text-center text-xs font-bold text-gray-500 pb-3">Screen 3: Space Detail View</p>
           </div>
         </div>
-        <p class="text-center text-xs text-gray-400 mt-4">Lo-fi wireframes created in Figma — grayscale, no visual styling, focused on structure and flow.</p>
+        <div class="mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 rounded-xl bg-white border border-gray-200 p-4">
+          <p class="text-xs text-gray-500">Original lo-fi artifact: grayscale Figma frames used to validate structure and flow before visual styling.</p>
+          <a href="https://www.figma.com/design/YZJ0DFEugKZAJKTQvuSK3R/Low-Fidelity-Prototype-of-Campus-Study?node-id=0-1&amp;t=jteepnYhBn7owRbh-1" target="_blank" rel="noopener noreferrer" class="shrink-0 px-4 py-2 rounded-lg bg-gray-900 text-white text-xs font-bold hover:bg-black transition-colors">View Low-Fidelity File &nearr;</a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════
-       07. HIGH-FIDELITY MOCKUPS & VISUAL INTERFACE DESIGN
+    1. HIGH-FIDELITY MOCKUPS & VISUAL INTERFACE DESIGN
   ══════════════════════════════════════════════ -->
   <section id="prototype" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1394,11 +1528,28 @@
         </div>
       </div>
 
+      <div class="reveal grid md:grid-cols-2 gap-6">
+        <div class="rounded-2xl border border-forest/20 bg-forest/5 p-6">
+          <span class="text-xs font-black text-forest uppercase tracking-wider">Accessibility-Informed Decisions</span>
+          <h3 class="text-lg font-black text-black mt-2 mb-3">Clarity beyond color alone</h3>
+          <ul class="space-y-2 text-sm text-gray-600">
+            <li>Status colors are paired with explicit labels such as Available, Filling Up, and Full.</li>
+            <li>Keyboard focus indicators and reduced-motion preferences are supported in the web prototype.</li>
+            <li>Primary controls use large, labeled targets and error feedback is communicated with text.</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+          <span class="text-xs font-black text-amber-700 uppercase tracking-wider">Accessibility Scope</span>
+          <h3 class="text-lg font-black text-black mt-2 mb-3">Audit still required before production</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">The prototype applies accessibility-informed patterns but is not presented as fully WCAG compliant. A production release still requires formal contrast measurement, screen-reader testing, responsive text validation, and a complete keyboard audit.</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════
-       08. INTERACTIVE PROTOTYPE & CROSS-PLATFORM DESIGN
+    1. INTERACTIVE PROTOTYPE & CROSS-PLATFORM DESIGN
   ══════════════════════════════════════════════ -->
   <section id="cross-platform" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1417,27 +1568,48 @@
         <div class="bg-white rounded-2xl p-6 border border-gold/40"><h3 class="font-black text-black mb-2">Desktop Web</h3><p class="text-gray-500 text-sm">Map and list content can appear together, with filters retained in view to support faster comparison across campus locations.</p></div>
       </div>
 
+      <div class="reveal grid md:grid-cols-3 gap-4 mb-8" aria-label="Interactive prototype flow coverage">
+        <article class="rounded-2xl bg-white border border-gray-200 p-5">
+          <span class="text-xs font-black text-forest uppercase tracking-wider">Flow 01 · Discover</span>
+          <h3 class="font-black text-black mt-2">Search and filter spaces</h3>
+          <p class="text-sm text-gray-500 mt-2">Search by location, apply Quiet and Outlets filters, and switch between proximity list and campus map.</p>
+        </article>
+        <article class="rounded-2xl bg-white border border-gray-200 p-5">
+          <span class="text-xs font-black text-sky-blue uppercase tracking-wider">Flow 02 · Decide</span>
+          <h3 class="font-black text-black mt-2">Inspect and navigate</h3>
+          <p class="text-sm text-gray-500 mt-2">Review capacity, temperature, noise, amenities, and route guidance before committing to a space.</p>
+        </article>
+        <article class="rounded-2xl bg-white border border-gray-200 p-5">
+          <span class="text-xs font-black text-flame uppercase tracking-wider">Flow 03 · Contribute</span>
+          <h3 class="font-black text-black mt-2">Report and save status</h3>
+          <p class="text-sm text-gray-500 mt-2">Submit a two-step crowd report, save preferred spaces, and review contribution history in the profile.</p>
+        </article>
+      </div>
+
       <!-- Prototype CTA -->
       <div class="reveal bg-gradient-to-br from-forest to-green-600 rounded-2xl p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
         <div>
-          <span class="tag-badge inline-block px-3 py-1 bg-white/20 text-white text-xs font-bold rounded-full border border-white/30 mb-3">Figma Interactive Prototype</span>
-          <h3 class="text-2xl font-black mb-2">Click-Through Prototype — 3 User Flows</h3>
-          <p class="text-green-100 text-sm leading-relaxed max-w-lg">The Figma prototype covers: (1) Finding a space by filter, (2) Viewing space detail &amp; navigating, (3) Receiving a peak-hour alert. All interactions are linked across 8 screens.</p>
+          <span class="tag-badge inline-block px-3 py-1 bg-white/20 text-white text-xs font-bold rounded-full border border-white/30 mb-3">Two Working Prototype Entry Points</span>
+          <h3 class="text-2xl font-black mb-2">Published Figma Site + Functional Web Simulator</h3>
+          <p class="text-green-100 text-sm leading-relaxed max-w-lg">The published Figma Site presents the final prototype experience, while the live web simulator provides complete functional proof for search, filtering, map/list switching, space details, directions, saving, and crowdsourced reporting.</p>
           <div class="flex flex-wrap gap-3 mt-4">
             <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">8 Screens</span>
             <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">3 Task Flows</span>
-            <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">Mobile-First</span>
-            <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">Responsive Considerations</span>
+            <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">Working Interaction States</span>
+            <span class="px-3 py-1.5 bg-white/15 rounded-xl text-xs font-bold border border-white/20">Mobile, Tablet &amp; Desktop</span>
           </div>
         </div>
         <div class="shrink-0 flex flex-col sm:flex-row md:flex-col gap-3 w-full sm:w-auto">
-          <a href="https://www.figma.com/make/FVcYlfKFG70w5jDeMt82B3/Campus-Study-Space-Finder?fullscreen=1&amp;t=koZQAnKFF9gIduyB-1&amp;code-node-id=0-6" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-gold text-forest text-center font-black rounded-xl hover:bg-yellow-300 transition-all shadow-xl hover:-translate-y-1 text-sm whitespace-nowrap flex items-center justify-center gap-2">
-            <span>Open Figma Prototype</span>
+          <a href="https://print-mural-71153100.figma.site" target="_blank" rel="noopener noreferrer" class="px-8 py-4 bg-gold text-forest text-center font-black rounded-xl hover:bg-yellow-300 transition-all shadow-xl hover:-translate-y-1 text-sm whitespace-nowrap flex items-center justify-center gap-2">
+            <span>Launch Working Figma Site</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
           </a>
           <a href="prototype.html" class="px-8 py-3.5 bg-white/15 text-white text-center font-bold rounded-xl border border-white/25 hover:bg-white/25 transition-all text-sm whitespace-nowrap flex items-center justify-center gap-2">
-            <span>Try Web Simulator Demo</span>
+            <span>Test Functional Web Simulator</span>
             <span>&rarr;</span>
+          </a>
+          <a href="https://www.figma.com/design/mI3IJc3ZHZFHTVlyQgzyKJ/Campus-Study-Space-Finder--Final-Version?node-id=0-1&amp;t=o1ad1NBsoze8Q2sw-1" target="_blank" rel="noopener noreferrer" class="px-8 py-3.5 text-green-100 text-center font-bold hover:text-white transition-colors text-sm whitespace-nowrap">
+            Inspect Final Figma Design &nearr;
           </a>
         </div>
       </div>
@@ -1445,7 +1617,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       09. USABILITY TESTING PLAN, OBSERVATIONS & FINDINGS
+    1. USABILITY TESTING PLAN, OBSERVATIONS & FINDINGS
   ══════════════════════════════════════════════ -->
   <section id="testing" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1455,7 +1627,7 @@
           <div class="h-px flex-1 bg-gradient-to-r from-forest/30 to-transparent max-w-xs"></div>
         </div>
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-2">Usability Testing Plan, Observations &amp; Findings</h2>
-        <p class="text-gray-500 text-base max-w-xl">Moderated usability testing conducted with 3 DLSP / PLSP students across different colleges using the Figma prototype, evaluated via SUS (System Usability Scale).</p>
+        <p class="text-gray-500 text-base max-w-xl">Moderated task-based usability testing conducted with 3 DLSP / PLSP students across different colleges, evaluated through task completion, observed behavior, and qualitative feedback.</p>
       </div>
 
       <!-- Testing Plan Overview -->
@@ -1471,9 +1643,9 @@
           <p class="text-xs text-gray-400 mt-1">Filter space &amp; Navigate</p>
         </div>
         <div class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm text-center">
-          <div class="text-3xl font-black text-amber-500 mb-1">87.5</div>
-          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">SUS Score / 100</p>
-          <p class="text-xs text-gray-400 mt-1">Grade A (Excellent)</p>
+          <div class="text-3xl font-black text-amber-500 mb-1">3</div>
+          <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Prioritized Findings</p>
+          <p class="text-xs text-gray-400 mt-1">Visibility, trust &amp; discovery</p>
         </div>
         <div class="bg-white rounded-2xl p-5 border border-flame/20 shadow-sm text-center">
           <div class="text-3xl font-black text-flame mb-1">3/3</div>
@@ -1482,9 +1654,32 @@
         </div>
       </div>
 
+      <!-- Test protocol -->
+      <div class="reveal bg-gray-50 rounded-2xl p-6 sm:p-8 border border-gray-200 mb-8">
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-3 mb-5">
+          <div>
+            <span class="text-xs font-black text-forest uppercase tracking-wider">Moderated Test Protocol</span>
+            <h3 class="text-lg font-black text-black mt-1">What was evaluated and how success was defined</h3>
+          </div>
+          <p class="text-xs text-gray-500 max-w-md">Participants completed two primary tasks while the moderator recorded completion behavior, control-discovery issues, and post-task qualitative feedback. No standardized post-test scale is reported.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <article class="bg-white rounded-xl p-4 border border-gray-200">
+            <p class="text-xs font-black text-gray-500 uppercase tracking-wider mb-2">Task 1 Success Criterion</p>
+            <p class="text-sm text-gray-700">Apply Quiet and Outlets filters and select a matching study space without moderator assistance.</p>
+          </article>
+          <article class="bg-white rounded-xl p-4 border border-gray-200">
+            <p class="text-xs font-black text-gray-500 uppercase tracking-wider mb-2">Task 2 Success Criterion</p>
+            <p class="text-sm text-gray-700">Locate environmental details for the selected space and successfully initiate directions.</p>
+          </article>
+        </div>
+        <p class="text-xs text-gray-500 mt-4"><strong class="text-gray-800">Privacy:</strong> Findings are reported as aggregate results and anonymous participant observations; no personal identifiers are displayed.</p>
+      </div>
+
       <!-- Task Completion -->
       <div class="reveal bg-white rounded-2xl p-8 border border-gray-100 shadow-sm mb-8">
-        <h3 class="text-lg font-black text-black mb-6">Task Completion &amp; SUS Evaluation (N=3)</h3>
+        <h3 class="text-lg font-black text-black mb-2">Task Completion &amp; Observed Performance (N=3)</h3>
+        <p class="text-xs text-gray-500 mb-6">These formative results are directional findings from a small sample and are not statistically generalizable.</p>
         <div class="space-y-5">
           <div>
             <div class="flex justify-between items-center mb-2">
@@ -1560,6 +1755,13 @@
                 <p class="text-xs text-gray-500">All 3 participants described the concept as relevant to a recurring campus problem and indicated that they would use the app.</p>
               </div>
             </div>
+            <div class="flex items-start gap-3 p-3 bg-forest/5 rounded-xl border border-forest/15">
+              <span class="w-6 h-6 rounded-full bg-forest text-white flex items-center justify-center text-xs font-black shrink-0">✓</span>
+              <div>
+                <p class="text-sm font-black text-black mb-1">Freshness timestamps increased trust</p>
+                <p class="text-xs text-gray-500">Participants requested visible “updated” timestamps so they could judge whether crowdsourced capacity information was recent enough to act on.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1567,7 +1769,7 @@
   </section>
 
   <!-- ══════════════════════════════════════════════
-       10. DESIGN ITERATION & DESIGN RATIONALE
+    1. DESIGN ITERATION & DESIGN RATIONALE
   ══════════════════════════════════════════════ -->
   <section id="iteration" class="py-20 md:py-28 bg-gray-50 section-stripe">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1657,13 +1859,45 @@
           </div>
           <p class="text-xs text-gray-500 mt-4 leading-relaxed"><strong class="text-black">Design Rationale:</strong> Primary CTAs should be visually dominant and thumb-reachable. Changing from text link to a full-width sticky button follows iOS and Android design guidelines for primary actions on detail screens.</p>
         </div>
+
+        <!-- Change 3 -->
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 shadow-sm">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="w-8 h-8 rounded-lg bg-forest text-white flex items-center justify-center font-black text-sm">03</span>
+            <div>
+              <h3 class="font-black text-black">Environmental Data: Detail-Only → Preview Micro-Badges</h3>
+              <p class="text-gray-500 text-xs">Usability finding: participants wanted temperature and outlet information before opening a space.</p>
+            </div>
+          </div>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-red-50 rounded-xl p-5 border border-red-200">
+              <p class="text-xs font-black text-flame uppercase tracking-wider mb-3">Before (v1)</p>
+              <div class="bg-white rounded-lg p-4 border border-gray-200">
+                <p class="font-bold text-sm text-gray-900">CAS Bench Cluster 3</p>
+                <p class="text-xs text-gray-500 mt-1">Capacity and distance only; environmental details required another tap.</p>
+              </div>
+            </div>
+            <div class="bg-green-50 rounded-xl p-5 border border-green-200">
+              <p class="text-xs font-black text-forest uppercase tracking-wider mb-3">After (v2)</p>
+              <div class="bg-white rounded-lg p-4 border border-gray-200">
+                <p class="font-bold text-sm text-gray-900">CAS Bench Cluster 3</p>
+                <div class="flex flex-wrap gap-2 mt-3">
+                  <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-bold">24°C</span>
+                  <span class="px-2 py-1 bg-amber-50 text-amber-700 rounded-md text-xs font-bold">4 Outlets</span>
+                  <span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-md text-xs font-bold">Moderate Noise</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 mt-4 leading-relaxed"><strong class="text-black">Design Rationale:</strong> Exposing decision-critical conditions on each result card supports faster comparison and reduces unnecessary detail-screen visits during short class gaps.</p>
+        </div>
       </div>
 
     </div>
   </section>
 
   <!-- ══════════════════════════════════════════════
-       11. FINAL SOLUTION, REFLECTION & FUTURE WORK
+    1. FINAL SOLUTION, REFLECTION & FUTURE WORK
   ══════════════════════════════════════════════ -->
   <section id="reflection" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1723,7 +1957,7 @@
           <div class="flex items-center gap-3 mb-4">
             <span class="w-10 h-10 rounded-xl bg-gold flex items-center justify-center text-forest font-black text-lg shadow-lg">D</span>
             <div>
-              <p class="text-white font-black text-lg leading-none">Denmhar</p>
+              <p class="text-white font-black text-lg leading-none">Denmhar S. Dimaculangan</p>
               <p class="text-gray-400 text-xs">UX Researcher &amp; Product Designer</p>
             </div>
           </div>
@@ -1740,6 +1974,7 @@
             <li class="flex items-center gap-2 hover:text-white transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>N=27 Quantitative Survey</li>
             <li class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>Affinity Mapping &amp; Clustering</li>
             <li class="flex items-center gap-2 hover:text-white transition-colors cursor-pointer"><span class="w-1.5 h-1.5 rounded-full bg-forest"></span>App Concept Design</li>
+            <li><a href="https://www.behance.net/gallery/257152609/Campus-Study-Space-Finder-Mobile-UXUI-Case-Study" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-white transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-gold"></span>Published Behance Project &nearr;</a></li>
           </ul>
         </div>
 
@@ -1748,7 +1983,7 @@
       <!-- Divider -->
       <div class="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
         <p class="text-gray-500 text-sm">
-          &copy; 2026 <span class="text-white font-semibold">Denmhar</span> - DLSP / PLSP UX Case Study Portfolio
+          &copy; 2026 <span class="text-white font-semibold">Denmhar S. Dimaculangan</span> - DLSP / PLSP UX Case Study Portfolio
         </p>
         <div class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
